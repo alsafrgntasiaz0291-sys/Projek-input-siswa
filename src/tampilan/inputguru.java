@@ -13,19 +13,18 @@ import javax.swing.table.DefaultTableModel;
 public class inputguru extends javax.swing.JFrame {
     
     public static DefaultTableModel model;
-
+   
     /**
      * Creates new form inputguru
      */
     public inputguru() {
         initComponents();
-        if (model == null) {
-            model = new javax.swing.table.DefaultTableModel(
-                    new Object[]{"No","NIP","Nama","No. Telp","Email","Agama","Jenis Kelamin"}, 0
-            );        
-        }
-        
-        jTable1.setModel(model);
+        if (inputguru.model == null) {
+    inputguru.model = new javax.swing.table.DefaultTableModel(
+        new Object[]{"No","NIP","Nama","No. Telp","Email","Agama","Jenis Kelamin"}, 0
+    );
+    }
+
     }
 
     /**
@@ -37,6 +36,7 @@ public class inputguru extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -294,10 +294,10 @@ public class inputguru extends javax.swing.JFrame {
             jk = "Perempuan";
         }
         
-        int no = DataStore.model.getRowCount() + 1;
-        
-        DataStore.model.addRow(new Object[]{
-            no, nip, nama, telp, email, agama, jk
+        int no = model.getRowCount() + 1;
+
+        model.addRow(new Object[]{
+        no, nip, nama, telp, email, agama, jk
         });
         
         javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil disimpan!");
@@ -306,8 +306,6 @@ public class inputguru extends javax.swing.JFrame {
         txttelp.setText("");
         txtemail.setText("");
         txtagama.setText("");
-        ButtonGroup bg = new ButtonGroup();
-        
     
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -393,6 +391,7 @@ public class inputguru extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
