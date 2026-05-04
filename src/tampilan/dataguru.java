@@ -25,7 +25,7 @@ public class dataguru extends javax.swing.JFrame {
             new Object[]{"No", "NIP", "Nama", "No. Telp", "Email", "Agama", "Jenis Kelamin"}, 0
         );
         }
-        jTable1.setModel(model);
+        jTable1.setModel(inputguru.model);
     }
 
     /**
