@@ -27,47 +27,119 @@ public class dashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        inputsiswa = new javax.swing.JButton();
+        inputguru = new javax.swing.JButton();
+        inputkelas = new javax.swing.JButton();
+        inputjurusan = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("INput siswa");
+        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
 
-        jButton2.setText("input guru");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        inputsiswa.setText("input siswa");
+        inputsiswa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                inputsiswaActionPerformed(evt);
             }
         });
+
+        inputguru.setText("input guru");
+        inputguru.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputguruActionPerformed(evt);
+            }
+        });
+
+        inputkelas.setText("input kelas");
+        inputkelas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputkelasActionPerformed(evt);
+            }
+        });
+
+        inputjurusan.setText("input jurusan");
+        inputjurusan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputjurusanActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(250, 250, 250)
+                        .addComponent(inputsiswa)
+                        .addGap(146, 146, 146)
+                        .addComponent(inputguru))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(163, 163, 163)
+                        .addComponent(inputkelas))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(335, 335, 335)
+                        .addComponent(inputjurusan)))
+                .addContainerGap(245, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(160, 160, 160)
+                        .addComponent(inputsiswa))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(170, 170, 170)
+                        .addComponent(inputguru)))
+                .addGap(40, 40, 40)
+                .addComponent(inputjurusan)
+                .addGap(2, 2, 2)
+                .addComponent(inputkelas)
+                .addContainerGap(299, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(214, 214, 214)
-                .addComponent(jButton1)
-                .addGap(137, 137, 137)
-                .addComponent(jButton2)
-                .addContainerGap(300, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(216, 216, 216)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(345, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void inputsiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputsiswaActionPerformed
+      inputsiswa form = new inputsiswa();
+    form.setVisible(true);
+    this.dispose();  // TODO add your handling code here:
+    }//GEN-LAST:event_inputsiswaActionPerformed
+
+    private void inputguruActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputguruActionPerformed
+inputguru form = new inputguru();
+    form.setVisible(true);
+    this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_inputguruActionPerformed
+
+    private void inputkelasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputkelasActionPerformed
+        inputkelas form = new inputkelas();
+        form.setVisible(true);
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_inputkelasActionPerformed
+
+    private void inputjurusanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputjurusanActionPerformed
+        inputjurusan form = new inputjurusan();
+        form.setVisible(true);
+        this.dispose();        // TODO add your handling code here:
+    }//GEN-LAST:event_inputjurusanActionPerformed
 
     /**
      * @param args the command line arguments
@@ -105,7 +177,10 @@ public class dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton inputguru;
+    private javax.swing.JButton inputjurusan;
+    private javax.swing.JButton inputkelas;
+    private javax.swing.JButton inputsiswa;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -31,7 +31,7 @@ public class login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtUsername = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        btnLogin = new javax.swing.JButton();
+        btnlogin = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         txtPassword = new javax.swing.JPasswordField();
@@ -46,20 +46,24 @@ public class login extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 24)); // NOI18N
         jLabel1.setText("Penilaian Siswa/i Smk Al-Hidayah 1");
 
+        txtUsername.setText("admin");
+
         jLabel2.setText("Username");
 
-        btnLogin.setBackground(new java.awt.Color(255, 255, 255));
-        btnLogin.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
-        btnLogin.setText("Login");
-        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+        btnlogin.setBackground(new java.awt.Color(255, 255, 255));
+        btnlogin.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        btnlogin.setText("Login");
+        btnlogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLoginActionPerformed(evt);
+                btnloginActionPerformed(evt);
             }
         });
 
         jLabel3.setText("Logo");
 
         jLabel4.setText("Password");
+
+        txtPassword.setText("12345");
 
         lblLupa.setForeground(new java.awt.Color(51, 102, 255));
         lblLupa.setText("Lupa Password");
@@ -111,7 +115,7 @@ public class login extends javax.swing.JFrame {
                             .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(120, 120, 120))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnlogin, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(183, 183, 183))))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,7 +151,7 @@ public class login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnlogin, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(lblLupa)
                 .addContainerGap(97, Short.MAX_VALUE))
@@ -173,24 +177,50 @@ public class login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+    private void btnloginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnloginActionPerformed
+String username = txtUsername.getText().trim();
+    String password = new String(txtPassword.getPassword());
 
-        String username = txtUsername.getText();
-        String password = new String(txtPassword.getPassword());
+        if (username.isEmpty() || password.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Username dan Password wajib diisi!",
+            "Peringatan",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
 
-        if(username.equals("") || password.equals("")){
-            javax.swing.JOptionPane.showMessageDialog(this, "Username dan Password wajib diisi!");
-        }
-        else if(!cbRobot.isSelected()){
-            javax.swing.JOptionPane.showMessageDialog(this, "Centang 'I'm not a robot' dulu!");
-        }
-        else if(username.equals("admin") && password.equals("123")){
-            javax.swing.JOptionPane.showMessageDialog(this, "Login Berhasil!");
-        }
-        else{
-            javax.swing.JOptionPane.showMessageDialog(this, "Username atau Password salah!");
-        }     // TODO add your handling code here:
-    }//GEN-LAST:event_btnLoginActionPerformed
+    // 2. Cek apakah checkbox "I'm not a robot" sudah dicentang
+    if (!cbRobot.isSelected()) {
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Silakan centang 'I'm not a robot' terlebih dahulu!",
+            "Verifikasi Gagal",
+            javax.swing.JOptionPane.WARNING_MESSAGE
+        );
+        return;
+    }
+
+    // 3. Validasi username dan password
+    if (username.equals("admin") && password.equals("12345")) {
+        // Login berhasil
+        dashboard form = new dashboard();
+        form.setVisible(true);
+        this.dispose();
+    } else {
+        // Login gagal
+        javax.swing.JOptionPane.showMessageDialog(
+            this,
+            "Username atau Password salah!",
+            "Login Gagal",
+            javax.swing.JOptionPane.ERROR_MESSAGE
+        );
+
+        txtPassword.setText("");
+        txtPassword.requestFocus();
+    }  // TODO add your handling code here:
+    }//GEN-LAST:event_btnloginActionPerformed
 
     private void lblLupaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblLupaMouseClicked
         javax.swing.JOptionPane.showMessageDialog(this,
@@ -239,7 +269,7 @@ public class login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnLogin;
+    private javax.swing.JButton btnlogin;
     private javax.swing.JCheckBox cbRobot;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
