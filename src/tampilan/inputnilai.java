@@ -414,8 +414,7 @@ public class inputnilai extends javax.swing.JFrame {
             cbkelas.setSelectedItem(rs.getString("kelas"));
             cbjurusan.setSelectedItem(rs.getString("jurusan"));
 
-            tampilMapel();
-
+            
         } else {
 
             JOptionPane.showMessageDialog(
@@ -431,7 +430,7 @@ public class inputnilai extends javax.swing.JFrame {
                 e.getMessage()
         );
     }
-}
+
 
         // TODO add your handling code here:
     }//GEN-LAST:event_cariActionPerformed
