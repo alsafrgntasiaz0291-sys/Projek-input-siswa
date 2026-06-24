@@ -45,6 +45,8 @@ public class dashboard extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        inputsiswa.setBackground(new java.awt.Color(255, 255, 255));
+        inputsiswa.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
         inputsiswa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/SiswaSisiwi.png"))); // NOI18N
         inputsiswa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -52,6 +54,7 @@ public class dashboard extends javax.swing.JFrame {
             }
         });
 
+        inputguru.setBackground(new java.awt.Color(255, 255, 255));
         inputguru.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Guru.png"))); // NOI18N
         inputguru.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -59,6 +62,7 @@ public class dashboard extends javax.swing.JFrame {
             }
         });
 
+        inputkelas.setBackground(new java.awt.Color(255, 255, 255));
         inputkelas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Kelas.png"))); // NOI18N
         inputkelas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,6 +70,7 @@ public class dashboard extends javax.swing.JFrame {
             }
         });
 
+        inputjurusan.setBackground(new java.awt.Color(255, 255, 255));
         inputjurusan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Jurusan.png"))); // NOI18N
         inputjurusan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -75,8 +80,10 @@ public class dashboard extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoBesar (1).png"))); // NOI18N
 
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Nilai.png"))); // NOI18N
 
+        jButton2.setBackground(new java.awt.Color(255, 255, 255));
         jButton2.setText("Raport");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
