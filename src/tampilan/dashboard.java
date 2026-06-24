@@ -16,6 +16,7 @@ public class dashboard extends javax.swing.JFrame {
      */
     public dashboard() {
         initComponents();
+      
     }
 
     /**
@@ -27,87 +28,110 @@ public class dashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTree1 = new javax.swing.JTree();
         jPanel1 = new javax.swing.JPanel();
         inputsiswa = new javax.swing.JButton();
         inputguru = new javax.swing.JButton();
         inputkelas = new javax.swing.JButton();
         inputjurusan = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+
+        jScrollPane1.setViewportView(jTree1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(0, 153, 153));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        inputsiswa.setText("input siswa");
+        inputsiswa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/SiswaSisiwi.png"))); // NOI18N
         inputsiswa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputsiswaActionPerformed(evt);
             }
         });
 
-        inputguru.setText("input guru");
+        inputguru.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Guru.png"))); // NOI18N
         inputguru.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputguruActionPerformed(evt);
             }
         });
 
-        inputkelas.setText("input kelas");
+        inputkelas.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Kelas.png"))); // NOI18N
         inputkelas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputkelasActionPerformed(evt);
             }
         });
 
-        inputjurusan.setText("input jurusan");
+        inputjurusan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Jurusan.png"))); // NOI18N
         inputjurusan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputjurusanActionPerformed(evt);
             }
         });
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/LogoBesar (1).png"))); // NOI18N
+
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Nilai.png"))); // NOI18N
+
+        jButton2.setText("Raport");
+
+        jButton3.setText("jButton3");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(177, 177, 177)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(250, 250, 250)
-                        .addComponent(inputsiswa)
-                        .addGap(146, 146, 146)
-                        .addComponent(inputguru))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(163, 163, 163)
-                        .addComponent(inputkelas))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(335, 335, 335)
-                        .addComponent(inputjurusan)))
-                .addContainerGap(245, Short.MAX_VALUE))
+                    .addComponent(inputjurusan)
+                    .addComponent(inputsiswa)
+                    .addComponent(inputkelas)
+                    .addComponent(inputguru, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton3)
+                .addGap(140, 140, 140))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(160, 160, 160)
-                        .addComponent(inputsiswa))
+                        .addGap(89, 89, 89)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(170, 170, 170)
-                        .addComponent(inputguru)))
-                .addGap(40, 40, 40)
-                .addComponent(inputjurusan)
-                .addGap(2, 2, 2)
-                .addComponent(inputkelas)
-                .addContainerGap(299, Short.MAX_VALUE))
+                        .addGap(81, 81, 81)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(inputsiswa)
+                                .addGap(18, 18, 18)
+                                .addComponent(inputjurusan)
+                                .addGap(18, 18, 18)
+                                .addComponent(inputkelas)
+                                .addGap(18, 18, 18)
+                                .addComponent(inputguru, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(22, 22, 22)
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -181,6 +205,12 @@ inputguru form = new inputguru();
     private javax.swing.JButton inputjurusan;
     private javax.swing.JButton inputkelas;
     private javax.swing.JButton inputsiswa;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 }
