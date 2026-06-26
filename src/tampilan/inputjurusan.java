@@ -40,6 +40,10 @@ public class inputjurusan extends javax.swing.JFrame {
 
     model.addColumn("Id Jurusan");
     model.addColumn("Nama Jurusan");
+    if (conn == null) {
+            JOptionPane.showMessageDialog(null, "Gagal memuat data: Koneksi database terputus!");
+            return;
+        }
 
     try {
 
@@ -58,7 +62,7 @@ public class inputjurusan extends javax.swing.JFrame {
         tblJurusan.setModel(model);
 
     } catch (Exception e){
-        JOptionPane.showMessageDialog(null, e);
+        JOptionPane.showMessageDialog(null, "Gagal memuat data dari database: " + e.getMessage());
     }
 }
 
@@ -312,7 +316,10 @@ public class inputjurusan extends javax.swing.JFrame {
     }//GEN-LAST:event_txtIdJurusanActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-
+      if (conn == null) {
+            JOptionPane.showMessageDialog(null, "Aksi ditolak: Koneksi ke database tidak tersedia!");
+            return;
+        }
     try {
 
         String sql = "INSERT INTO jurusan(nama_jurusan) VALUES(?)";
@@ -336,7 +343,10 @@ public class inputjurusan extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSimpanActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
-
+    if (conn == null) {
+            JOptionPane.showMessageDialog(null, "Aksi ditolak: Koneksi ke database tidak tersedia!");
+            return;
+        }
     try {
 
         String sql = "DELETE FROM jurusan WHERE id_jurusan=?";
@@ -355,7 +365,7 @@ public class inputjurusan extends javax.swing.JFrame {
         txtNamaJurusan.setText("");
 
     } catch(HeadlessException | SQLException e){
-        JOptionPane.showMessageDialog(null, e);
+        JOptionPane.showMessageDialog(null, "Gagal Hapus: " + e.getMessage());
     }
     }//GEN-LAST:event_btnHapusActionPerformed
 
@@ -364,17 +374,17 @@ public class inputjurusan extends javax.swing.JFrame {
 
     int baris = tblJurusan.getSelectedRow();
 
-    txtIdJurusan.setText(
-        tblJurusan.getValueAt(baris, 0).toString()
-    );
-
-    txtNamaJurusan.setText(
-        tblJurusan.getValueAt(baris, 1).toString()
-    );     // TODO add your handling code here:
+    if(baris != -1) {
+            txtIdJurusan.setText(tblJurusan.getValueAt(baris, 0).toString());
+            txtNamaJurusan.setText(tblJurusan.getValueAt(baris, 1).toString());
+        } // TODO add your handling code here:
     }//GEN-LAST:event_tblJurusanMouseClicked
 
     private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
-
+    if (conn == null) {
+            JOptionPane.showMessageDialog(null, "Aksi ditolak: Koneksi ke database tidak tersedia!");
+            return;
+        }
     try {
 
         String sql = "UPDATE jurusan SET nama_jurusan=? WHERE id_jurusan=?";
@@ -394,8 +404,8 @@ public class inputjurusan extends javax.swing.JFrame {
         txtNamaJurusan.setText("");
 
     } catch(HeadlessException | SQLException e){
-        JOptionPane.showMessageDialog(null, e);
-    }
+       JOptionPane.showMessageDialog(null, "Gagal Ubah: " + e.getMessage());
+        }
         
     }//GEN-LAST:event_btnUbahActionPerformed
 
@@ -409,11 +419,6 @@ dashboard form = new dashboard();
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -421,16 +426,9 @@ dashboard form = new dashboard();
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(inputjurusan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(inputjurusan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(inputjurusan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(inputjurusan.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
