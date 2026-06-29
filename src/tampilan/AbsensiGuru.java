@@ -31,6 +31,7 @@ public class AbsensiGuru extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -40,23 +41,23 @@ public class AbsensiGuru extends javax.swing.JPanel {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jTextField6 = new javax.swing.JTextField();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        txtIdGuru = new javax.swing.JTextField();
+        txtTanggal = new javax.swing.JTextField();
+        txtJamMasuk = new javax.swing.JTextField();
+        txtJamKeluar = new javax.swing.JTextField();
+        txtNik = new javax.swing.JTextField();
+        txtNama = new javax.swing.JTextField();
+        rbHadir = new javax.swing.JRadioButton();
+        rbIzin = new javax.swing.JRadioButton();
+        rbSakit = new javax.swing.JRadioButton();
+        rbAlfa = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
-        jTextField7 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        txtKeterangan = new javax.swing.JTextField();
+        btnSimpan = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblAbsensi = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(204, 255, 153));
 
@@ -70,6 +71,10 @@ public class AbsensiGuru extends javax.swing.JPanel {
         jButton4.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         jButton4.setText("HOME");
 
+        jLabel10.setFont(new java.awt.Font("Bookman Old Style", 2, 24)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setText("ABSENSI GURU");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -77,6 +82,8 @@ public class AbsensiGuru extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addComponent(jLabel1)
+                .addGap(32, 32, 32)
+                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(190, 190, 190))
@@ -89,8 +96,10 @@ public class AbsensiGuru extends javax.swing.JPanel {
                         .addContainerGap()
                         .addComponent(jLabel1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(56, 56, 56)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(53, 53, 53)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
@@ -120,41 +129,46 @@ public class AbsensiGuru extends javax.swing.JPanel {
         jLabel9.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel9.setText("Ketrangan");
 
-        jTextField4.addActionListener(new java.awt.event.ActionListener() {
+        txtJamKeluar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField4ActionPerformed(evt);
+                txtJamKeluarActionPerformed(evt);
             }
         });
 
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
+        txtNik.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
+                txtNikActionPerformed(evt);
             }
         });
 
-        jRadioButton1.setBackground(new java.awt.Color(255, 255, 204));
-        jRadioButton1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jRadioButton1.setText("Hadir");
+        rbHadir.setBackground(new java.awt.Color(255, 255, 204));
+        rbHadir.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        rbHadir.setText("Hadir");
 
-        jRadioButton2.setBackground(new java.awt.Color(255, 255, 204));
-        jRadioButton2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jRadioButton2.setText("Izin");
+        rbIzin.setBackground(new java.awt.Color(255, 255, 204));
+        rbIzin.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        rbIzin.setText("Izin");
 
-        jRadioButton3.setBackground(new java.awt.Color(255, 255, 204));
-        jRadioButton3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jRadioButton3.setText("Sakit");
+        rbSakit.setBackground(new java.awt.Color(255, 255, 204));
+        rbSakit.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        rbSakit.setText("Sakit");
 
-        jRadioButton4.setBackground(new java.awt.Color(255, 255, 204));
-        jRadioButton4.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jRadioButton4.setText("Alfa");
+        rbAlfa.setBackground(new java.awt.Color(255, 255, 204));
+        rbAlfa.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        rbAlfa.setText("Alfa");
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jButton1.setText("Hapus");
 
-        jButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jButton2.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jButton2.setText("Simpan");
+        btnSimpan.setBackground(new java.awt.Color(255, 255, 255));
+        btnSimpan.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        btnSimpan.setText("Simpan");
+        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSimpanActionPerformed(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(255, 255, 255));
         jButton3.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
@@ -170,7 +184,7 @@ public class AbsensiGuru extends javax.swing.JPanel {
                         .addGap(71, 71, 71)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(51, 51, 51)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(56, 56, 56)
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -187,18 +201,18 @@ public class AbsensiGuru extends javax.swing.JPanel {
                                 .addComponent(jLabel5)))
                         .addGap(43, 43, 43)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRadioButton2)
+                            .addComponent(txtKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rbIzin)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jRadioButton1)
-                                .addComponent(jTextField1)
-                                .addComponent(jTextField2)
-                                .addComponent(jTextField3)
-                                .addComponent(jTextField4)
-                                .addComponent(jTextField5)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE))
-                            .addComponent(jRadioButton3)
-                            .addComponent(jRadioButton4))))
+                                .addComponent(rbHadir)
+                                .addComponent(txtIdGuru)
+                                .addComponent(txtTanggal)
+                                .addComponent(txtJamMasuk)
+                                .addComponent(txtJamKeluar)
+                                .addComponent(txtNik)
+                                .addComponent(txtNama, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE))
+                            .addComponent(rbSakit)
+                            .addComponent(rbAlfa))))
                 .addContainerGap(56, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -207,53 +221,53 @@ public class AbsensiGuru extends javax.swing.JPanel {
                 .addGap(38, 38, 38)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdGuru, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTanggal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtJamMasuk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtJamKeluar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(47, 47, 47)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNik, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(53, 53, 53)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
+                    .addComponent(rbHadir)
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton2)
+                .addComponent(rbIzin)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton3)
+                .addComponent(rbSakit)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton4)
+                .addComponent(rbAlfa)
                 .addGap(17, 17, 17)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtKeterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(61, 61, 61))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 204));
 
-        jTable1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblAbsensi.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        tblAbsensi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -264,7 +278,16 @@ public class AbsensiGuru extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tblAbsensi.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                tblAbsensiAncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        jScrollPane1.setViewportView(tblAbsensi);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -318,21 +341,134 @@ public class AbsensiGuru extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
+    private void txtJamKeluarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtJamKeluarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+    }//GEN-LAST:event_txtJamKeluarActionPerformed
 
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
+    private void txtNikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNikActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
+    }//GEN-LAST:event_txtNikActionPerformed
+
+    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
+
+    try {
+
+        String status = "";
+
+        if (rbHadir.isSelected()) {
+            status = "Hadir";
+        } else if (rbIzin.isSelected()) {
+            status = "Izin";
+        } else if (rbSakit.isSelected()) {
+            status = "Sakit";
+        } else if (rbAlfa.isSelected()) {
+            status = "Alfa";
+        }
+
+        String sql = "INSERT INTO absensi "
+                + "(id_guru,tanggal,jam_masuk,jam_keluar,status,keterangan) "
+                + "VALUES (?,?,?,?,?,?)";
+
+        java.sql.Connection conn = koneksi.Koneksi.getKoneksi();
+
+        java.sql.PreparedStatement pst =
+                conn.prepareStatement(sql);
+
+        pst.setInt(1,
+                Integer.parseInt(txtIdGuru.getText()));
+
+        pst.setString(2,
+                txtTanggal.getText());
+
+        pst.setString(3,
+                txtJamMasuk.getText());
+
+        pst.setString(4,
+                txtJamKeluar.getText());
+
+        pst.setString(5,
+                status);
+
+        pst.setString(6,
+                txtKeterangan.getText());
+
+        pst.executeUpdate();
+
+        javax.swing.JOptionPane.showMessageDialog(
+                null,
+                "Data Berhasil Disimpan");
+
+        tampilData();
+
+    } catch (Exception e) {
+
+        javax.swing.JOptionPane.showMessageDialog(
+                null,
+                "Gagal : " + e.getMessage());
+
+    }   // TODO add your handling code here:
+    }//GEN-LAST:event_btnSimpanActionPerformed
+
+    private void tblAbsensiAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tblAbsensiAncestorAdded
+
+    DefaultTableModel model =
+            new DefaultTableModel();
+
+    model.addColumn("ID Guru");
+    model.addColumn("Tanggal");
+    model.addColumn("Jam Masuk");
+    model.addColumn("Jam Keluar");
+    model.addColumn("Status");
+    model.addColumn("Keterangan");
+
+    try {
+
+        String sql =
+                "SELECT * FROM absensi";
+
+        Connection conn =
+                koneksi.Koneksi.getKoneksi();
+
+        Statement st =
+                conn.createStatement();
+
+        ResultSet rs =
+                st.executeQuery(sql);
+
+        while (rs.next()) {
+
+            model.addRow(new Object[]{
+                rs.getString("id_guru"),
+                rs.getString("tanggal"),
+                rs.getString("jam_masuk"),
+                rs.getString("jam_keluar"),
+                rs.getString("status"),
+                rs.getString("keterangan")
+            });
+
+        }
+
+        tblAbsensi.setModel(model);
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(
+                null,
+                e.getMessage());
+
+    }
+
+}        // TODO add your handling code here:
+    }//GEN-LAST:event_tblAbsensiAncestorAdded
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSimpan;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -345,18 +481,18 @@ public class AbsensiGuru extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField7;
+    private javax.swing.JRadioButton rbAlfa;
+    private javax.swing.JRadioButton rbHadir;
+    private javax.swing.JRadioButton rbIzin;
+    private javax.swing.JRadioButton rbSakit;
+    private javax.swing.JTable tblAbsensi;
+    private javax.swing.JTextField txtIdGuru;
+    private javax.swing.JTextField txtJamKeluar;
+    private javax.swing.JTextField txtJamMasuk;
+    private javax.swing.JTextField txtKeterangan;
+    private javax.swing.JTextField txtNama;
+    private javax.swing.JTextField txtNik;
+    private javax.swing.JTextField txtTanggal;
     // End of variables declaration//GEN-END:variables
 }
