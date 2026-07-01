@@ -48,24 +48,56 @@ ButtonGroup bgStatus = new ButtonGroup();
     tanggalOtomatis();
     autoID();
     headerTabel();
-    tampilNIK(); 
+    tampilNIP(); 
     tampilData();
 
     }
     public void tampilNamaGuru() {
+
     try {
+
         Statement st = conn.createStatement();
+
         ResultSet rs = st.executeQuery(
-            "SELECT nama_guru FROM tb_guru WHERE nik='" + cmbNIK.getSelectedItem() + "'"
-        );
+        "SELECT nama_guru FROM guru WHERE nip='" + cmbNIP.getSelectedItem() + "'");
+
+        if(rs.next()){
+
+            txtNamaGuru.setText(rs.getString("nama_guru"));
+
+        }
+
+    } catch(Exception e){
+
+        System.out.println(e.getMessage());
+
+    }
+
+}
+    public int getIdGuru() {
+
+    int id = 0;
+
+    try {
+
+        Statement st = conn.createStatement();
+
+        ResultSet rs = st.executeQuery(
+        "SELECT id_guru FROM guru WHERE nip='" + cmbNIP.getSelectedItem() + "'");
 
         if (rs.next()) {
-            txtNamaGuru.setText(rs.getString("nama_guru"));
+
+            id = rs.getInt("id_guru");
+
         }
 
     } catch (Exception e) {
+
         System.out.println(e.getMessage());
+
     }
+
+    return id;
 }
     public void tanggalOtomatis() {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -73,24 +105,7 @@ ButtonGroup bgStatus = new ButtonGroup();
 }
 
 public void autoID() {
-    try {
-        Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery("SELECT MAX(id_absensi) FROM tb_absensi");
-
-        if (rs.next()) {
-            String id = rs.getString(1);
-
-            if (id == null) {
-                txtIdAbsensi.setText("ABS001");
-            } else {
-                int urut = Integer.parseInt(id.substring(3)) + 1;
-                txtIdAbsensi.setText(String.format("ABS%03d", urut));
-            }
-        }
-
-    } catch (Exception e) {
-        System.out.println(e.getMessage());
-    }
+    txtIdAbsensi.setText("");
 }
 
 public void headerTabel() {
@@ -99,7 +114,7 @@ public void headerTabel() {
 
     model.addColumn("ID Absensi");
     model.addColumn("Tanggal");
-    model.addColumn("NIK");
+    model.addColumn("NIP");
     model.addColumn("Nama Guru");
     model.addColumn("Jam Masuk");
     model.addColumn("Jam Keluar");
@@ -107,6 +122,7 @@ public void headerTabel() {
     model.addColumn("Keterangan");
 
     tblAbsensi.setModel(model);
+
 }
 public void tampilData() {
 
@@ -115,25 +131,34 @@ public void tampilData() {
     try {
 
         Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery("SELECT * FROM tb_absensi");
 
-        while(rs.next()){
+        String sql =
+        "SELECT a.id_absensi, a.tanggal, g.nip, g.nama_guru, " +
+        "a.jam_masuk, a.jam_keluar, a.status, a.keterangan " +
+        "FROM absensi a " +
+        "JOIN guru g ON a.id_guru = g.id_guru";
+
+        ResultSet rs = st.executeQuery(sql);
+
+        while (rs.next()) {
 
             model.addRow(new Object[]{
-                rs.getString("id_absensi"),
-                rs.getString("tanggal"),
-                rs.getString("nik"),
+                rs.getInt("id_absensi"),
+                rs.getDate("tanggal"),
+                rs.getString("nip"),
                 rs.getString("nama_guru"),
-                rs.getString("jam_masuk"),
-                rs.getString("jam_keluar"),
+                rs.getTime("jam_masuk"),
+                rs.getTime("jam_keluar"),
                 rs.getString("status"),
                 rs.getString("keterangan")
             });
 
         }
 
-    } catch(Exception e){
+    } catch (Exception e) {
+
         System.out.println(e.getMessage());
+
     }
 
 }
@@ -142,7 +167,7 @@ public void bersih(){
         tanggalOtomatis();
         autoID();
 
-        cmbNIK.setSelectedIndex(0);
+        cmbNIP.setSelectedIndex(0);
 
         txtNamaGuru.setText("");
 
@@ -165,20 +190,29 @@ public void bersih(){
         }
 
     }
-public void tampilNIK() {
+public void tampilNIP() {
+
     try {
+
         Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery("SELECT nik FROM tb_guru");
 
-        cmbNIK.removeAllItems();
+        ResultSet rs = st.executeQuery("SELECT nip FROM guru");
 
-        while (rs.next()) {
-            cmbNIK.addItem(rs.getString("nik"));
+        cmbNIP.removeAllItems();
+
+        while(rs.next()){
+
+            cmbNIP.addItem(rs.getString("nip"));
+
         }
 
-    } catch (Exception e) {
+    } catch(Exception e){
+
         System.out.println(e.getMessage());
+
     }
+
+
 }
 
     /**
@@ -213,7 +247,7 @@ public void tampilNIK() {
         txtKeterangan = new javax.swing.JTextField();
         btnSimpan = new javax.swing.JButton();
         btnUbah = new javax.swing.JButton();
-        cmbNIK = new javax.swing.JComboBox<>();
+        cmbNIP = new javax.swing.JComboBox<>();
         txtTanggal = new javax.swing.JTextField();
         spJamMasuk = new javax.swing.JSpinner();
         spJamKeluar = new javax.swing.JSpinner();
@@ -274,7 +308,7 @@ public void tampilNIK() {
         jLabel5.setText("Jam Keluar");
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jLabel6.setText("NIK");
+        jLabel6.setText("NIP");
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel7.setText("Nama");
@@ -328,10 +362,10 @@ public void tampilNIK() {
             }
         });
 
-        cmbNIK.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbNIK.addActionListener(new java.awt.event.ActionListener() {
+        cmbNIP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbNIP.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbNIKActionPerformed(evt);
+                cmbNIPActionPerformed(evt);
             }
         });
 
@@ -377,7 +411,7 @@ public void tampilNIK() {
                             .addComponent(rbSakit)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtTanggal, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(cmbNIK, javax.swing.GroupLayout.Alignment.LEADING, 0, 308, Short.MAX_VALUE)
+                                .addComponent(cmbNIP, javax.swing.GroupLayout.Alignment.LEADING, 0, 308, Short.MAX_VALUE)
                                 .addComponent(rbHadir, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtIdAbsensi, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtNamaGuru, javax.swing.GroupLayout.Alignment.LEADING))
@@ -401,7 +435,7 @@ public void tampilNIK() {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
-                    .addComponent(cmbNIK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cmbNIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -495,7 +529,7 @@ public void tampilNIK() {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(325, Short.MAX_VALUE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 601, Short.MAX_VALUE)))
         );
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 826));
@@ -510,31 +544,37 @@ public void tampilNIK() {
     }//GEN-LAST:event_txtNikActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-try {
+
+
+    try {
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-        String sql = "INSERT INTO tb_absensi VALUES(?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO absensi(id_guru, tanggal, jam_masuk, jam_keluar, status, keterangan) VALUES (?,?,?,?,?,?)";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
-        ps.setString(1, txtIdAbsensi.getText());
+        ps.setInt(1, getIdGuru());
         ps.setString(2, txtTanggal.getText());
-        ps.setString(3, cmbNIK.getSelectedItem().toString());
-        ps.setString(4, txtNamaGuru.getText());
-        ps.setString(5, sdf.format(spJamMasuk.getValue()));
-        ps.setString(6, sdf.format(spJamKeluar.getValue()));
-        ps.setString(7, getStatus());
-        ps.setString(8, txtKeterangan.getText());
+        ps.setString(3, sdf.format(spJamMasuk.getValue()));
+        ps.setString(4, sdf.format(spJamKeluar.getValue()));
+        ps.setString(5, getStatus());
+        ps.setString(6, txtKeterangan.getText());
 
         ps.executeUpdate();
+
+        javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil disimpan");
 
         tampilData();
         bersih();
 
-    } catch(Exception e){
-        System.out.println(e.getMessage());
+    } catch (Exception e) {
+
+        javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
+
     }
+
+
 
        // TODO add your handling code here:
     }//GEN-LAST:event_btnSimpanActionPerformed
@@ -544,33 +584,36 @@ try {
         // TODO add your handling code here:
     }//GEN-LAST:event_tblAbsensiAncestorAdded
 
-    private void cmbNIKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNIKActionPerformed
+    private void cmbNIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbNIPActionPerformed
 tampilNamaGuru();        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbNIKActionPerformed
+    }//GEN-LAST:event_cmbNIPActionPerformed
 
     private void tblAbsensiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAbsensiMouseClicked
         int baris = tblAbsensi.getSelectedRow();
 
-    txtIdAbsensi.setText(model.getValueAt(baris,0).toString());
-    txtTanggal.setText(model.getValueAt(baris,1).toString());
+txtIdAbsensi.setText(model.getValueAt(baris, 0).toString());
+txtTanggal.setText(model.getValueAt(baris, 1).toString());
 
-    cmbNIK.setSelectedItem(model.getValueAt(baris,2).toString());
+cmbNIP.setSelectedItem(model.getValueAt(baris, 2).toString());
 
-    txtNamaGuru.setText(model.getValueAt(baris,3).toString());
+txtNamaGuru.setText(model.getValueAt(baris, 3).toString());
 
-    txtKeterangan.setText(model.getValueAt(baris,7).toString());
+spJamMasuk.setValue(java.sql.Time.valueOf(model.getValueAt(baris, 4).toString()));
+spJamKeluar.setValue(java.sql.Time.valueOf(model.getValueAt(baris, 5).toString()));
 
-    String status = model.getValueAt(baris,6).toString();
+String status = model.getValueAt(baris, 6).toString();
 
-    if(status.equals("Hadir")){
-        rbHadir.setSelected(true);
-    }else if(status.equals("Izin")){
-        rbIzin.setSelected(true);
-    }else if(status.equals("Sakit")){
-        rbSakit.setSelected(true);
-    }else{
-        rbAlpha.setSelected(true);
-    }
+if (status.equals("Hadir")) {
+    rbHadir.setSelected(true);
+} else if (status.equals("Izin")) {
+    rbIzin.setSelected(true);
+} else if (status.equals("Sakit")) {
+    rbSakit.setSelected(true);
+} else {
+    rbAlpha.setSelected(true);
+}
+
+txtKeterangan.setText(model.getValueAt(baris, 7).toString());
 // TODO add your handling code here:
     }//GEN-LAST:event_tblAbsensiMouseClicked
 
@@ -579,38 +622,39 @@ tampilNamaGuru();        // TODO add your handling code here:
 
     try {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
-        String sql = "UPDATE tb_absensi SET "
-                + "tanggal=?,"
-                + "nik=?,"
-                + "nama_guru=?,"
-                + "jam_masuk=?,"
-                + "jam_keluar=?,"
-                + "status=?,"
-                + "keterangan=? "
-                + "WHERE id_absensi=?";
+    String sql = "UPDATE absensi SET "
+            + "id_guru=?,"
+            + "tanggal=?,"
+            + "jam_masuk=?,"
+            + "jam_keluar=?,"
+            + "status=?,"
+            + "keterangan=? "
+            + "WHERE id_absensi=?";
 
-        PreparedStatement ps = conn.prepareStatement(sql);
+    PreparedStatement ps = conn.prepareStatement(sql);
 
-        ps.setString(1, txtTanggal.getText());
-        ps.setString(2, cmbNIK.getSelectedItem().toString());
-        ps.setString(3, txtNamaGuru.getText());
-        ps.setString(4, sdf.format(spJamMasuk.getValue()));
-        ps.setString(5, sdf.format(spJamKeluar.getValue()));
-        ps.setString(6, getStatus());
-        ps.setString(7, txtKeterangan.getText());
-        ps.setString(8, txtIdAbsensi.getText());
+    ps.setInt(1, getIdGuru());
+    ps.setString(2, txtTanggal.getText());
+    ps.setString(3, sdf.format(spJamMasuk.getValue()));
+    ps.setString(4, sdf.format(spJamKeluar.getValue()));
+    ps.setString(5, getStatus());
+    ps.setString(6, txtKeterangan.getText());
+    ps.setInt(7, Integer.parseInt(txtIdAbsensi.getText()));
 
-        ps.executeUpdate();
+    ps.executeUpdate();
 
-        tampilData();
-        bersih();
+    javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil diubah");
 
-    } catch (Exception e) {
-        System.out.println(e.getMessage());
-    }
+    tampilData();
+    bersih();
 
+} catch (Exception e) {
+
+    javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
+
+}
         // TODO add your handling code here:
     }//GEN-LAST:event_btnUbahActionPerformed
 
@@ -619,12 +663,11 @@ tampilNamaGuru();        // TODO add your handling code here:
 
     try {
 
-        String sql = "DELETE FROM tb_absensi WHERE id_absensi=?";
+        String sql = "DELETE FROM absensi WHERE id_absensi=?";
 
         PreparedStatement ps = conn.prepareStatement(sql);
 
-        ps.setString(1, txtIdAbsensi.getText());
-
+       ps.setInt(1, Integer.parseInt(txtIdAbsensi.getText()));
         ps.executeUpdate();
 
         tampilData();
@@ -642,7 +685,7 @@ tampilNamaGuru();        // TODO add your handling code here:
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnSimpan;
     private javax.swing.JButton btnUbah;
-    private javax.swing.JComboBox<String> cmbNIK;
+    private javax.swing.JComboBox<String> cmbNIP;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
