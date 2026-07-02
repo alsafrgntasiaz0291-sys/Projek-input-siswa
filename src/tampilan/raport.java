@@ -4,137 +4,146 @@
  * and open the template in the editor.
  */
 package tampilan;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import koneksi.koneksi;
+
 /**
  *
  * @author rafi
  */
-public class raport extends javax.swing.JFrame {
+  
 
-    /**
-     * Creates new form raport
-     */
-    public raport() {
-        initComponents();
-    }
-    
-    private void tampilNilai() {
-        DefaultTableModel model = new DefaultTableModel();
+    public class raport extends javax.swing.JFrame {
 
-        model.addColumn("NO");
-        model.addColumn("Mata Pelajaran");
-        model.addColumn("KKM");
-        model.addColumn("UH");
-        model.addColumn("UTS");
-        model.addColumn("UAS");
-        model.addColumn("Rata-rata");
-        model.addColumn("Predikat");
-        model.addColumn("Keterangan");
+        /**
+         * Creates new form raport
+         */
+        public raport() {
+            initComponents();
+        }
 
-        try {
-            Connection conn = koneksi.getkoneksi();
+        private void tampilNilai() {
+            DefaultTableModel model = new DefaultTableModel();
 
-            String sql = "SELECT mp.nama_mapel, mp.kkm, n.uh, n.uts, n.uas "
-                       + "FROM nilai n "
-                       + "JOIN mata_pelajaran mp "
-                       + "ON n.id_mapel = mp.id_mapel "
-                       + "WHERE n.nis = ?";
+            model.addColumn("NO");
+            model.addColumn("Mata Pelajaran");
+            model.addColumn("KKM");
+            model.addColumn("UH");
+            model.addColumn("UTS");
+            model.addColumn("UAS");
+            model.addColumn("Rata-rata");
+            model.addColumn("Predikat");
+            model.addColumn("Keterangan");
+            model.setRowCount(0);
 
-            PreparedStatement pst = conn.prepareStatement(sql);
-            
-            // Disamakan dengan komponen NetBeans Anda (jTextField2 adalah NIS)
-            pst.setString(1, jTextField2.getText()); 
+            try {
+                Connection conn = koneksi.getkoneksi();
 
-            ResultSet rs = pst.executeQuery();
-            int no = 1;
+                String sql = "SELECT mp.nama_mapel, mp.kkm, n.uh, n.uts, n.uas "
+                        + "FROM nilai n "
+                        + "JOIN mata_pelajaran mp "
+                        + "ON n.id_mapel = mp.id_mapel "
+                        + "WHERE n.nis = ?";
 
-            while (rs.next()) {
-                double rata = (rs.getDouble("uh")
-                        + rs.getDouble("uts")
-                        + rs.getDouble("uas")) / 3;
+                PreparedStatement pst = conn.prepareStatement(sql);
 
-                String predikat;
-                if (rata >= 85) {
-                    predikat = "A";
-                } else if (rata >= 75) {
-                    predikat = "B";
-                } else if (rata >= 65) {
-                    predikat = "C";
-                } else {
-                    predikat = "D";
+                // Disamakan dengan komponen NetBeans Anda (jTextField2 adalah NIS)
+                pst.setString(1, jTextField2.getText());
+
+                ResultSet rs = pst.executeQuery();
+                int no = 1;
+
+                while (rs.next()) {
+                    double rata = (rs.getDouble("uh")
+                            + rs.getDouble("uts")
+                            + rs.getDouble("uas")) / 3;
+
+                    String predikat;
+                    if (rata >= 85) {
+                        predikat = "A";
+                    } else if (rata >= 75) {
+                        predikat = "B";
+                    } else if (rata >= 65) {
+                        predikat = "C";
+                    } else {
+                        predikat = "D";
+                    }
+
+                    String ket;
+                    if (rata >= rs.getInt("kkm")) {
+                        ket = "Tuntas";
+                    } else {
+                        ket = "Tidak Tuntas";
+                    }
+
+                    model.addRow(new Object[]{
+                        no++,
+                        rs.getString("nama_mapel"),
+                        rs.getInt("kkm"),
+                        rs.getDouble("uh"),
+                        rs.getDouble("uts"),
+                        rs.getDouble("uas"),
+                        String.format("%.2f", rata),
+                        predikat,
+                        ket
+                    });
                 }
 
-                String ket;
-                if (rata >= rs.getInt("kkm")) {
-                    ket = "Tuntas";
-                } else {
-                    ket = "Tidak Tuntas";
+                // Disamakan dengan komponen NetBeans Anda (jTable1 adalah Tabel Nilai)
+                jTable1.setModel(model);
+
+            } catch (SQLException e) {
+                System.out.println("Error tampilNilai: " + e.getMessage());
+            }
+        }
+
+        private void hitungRata() {
+            try {
+                int rowCount = jTable1.getRowCount();
+                if (rowCount == 0) {
+                    return;
                 }
 
-                model.addRow(new Object[]{
-                    no++,
-                    rs.getString("nama_mapel"),
-                    rs.getInt("kkm"),
-                    rs.getDouble("uh"),
-                    rs.getDouble("uts"),
-                    rs.getDouble("uas"),
-                    String.format("%.2f", rata),
-                    predikat,
-                    ket
-                });
+                double totalRataRataSemuaMapel = 0;
+
+                for (int i = 0; i < rowCount; i++) {
+                    // Mengambil nilai dari kolom Rata-rata (indeks ke-6)
+                    String nilaiStr = jTable1.getValueAt(i, 6).toString().replace(",", ".");
+                    totalRataRataSemuaMapel += Double.parseDouble(nilaiStr);
+                }
+
+                double rataFinal = totalRataRataSemuaMapel / rowCount;
+
+                // Set ke jTextField3 (Rata-rata) dan jTextField4 (Predikat Total)
+                jTextField3.setText(String.format("%.2f", rataFinal));
+
+                if (rataFinal >= 85) {
+                    jTextField4.setText("A");
+                } else if (rataFinal >= 75) {
+                    jTextField4.setText("B");
+                } else if (rataFinal >= 65) {
+                    jTextField4.setText("C");
+                } else {
+                    jTextField4.setText("D");
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("Error hitungRata: " + e.getMessage());
             }
-
-            // Disamakan dengan komponen NetBeans Anda (jTable1 adalah Tabel Nilai)
-            jTable1.setModel(model); 
-
-        } catch (SQLException e) {
-            System.out.println("Error tampilNilai: " + e.getMessage());
         }
-    }
-    
-    private void hitungRata() {
-        try {
-            int rowCount = jTable1.getRowCount();
-            if (rowCount == 0) return;
 
-            double totalRataRataSemuaMapel = 0;
-
-            for (int i = 0; i < rowCount; i++) {
-                // Mengambil nilai dari kolom Rata-rata (indeks ke-6)
-                String nilaiStr = jTable1.getValueAt(i, 6).toString().replace(",", ".");
-                totalRataRataSemuaMapel += Double.parseDouble(nilaiStr);
-            }
-
-            double rataFinal = totalRataRataSemuaMapel / rowCount;
-            
-            // Set ke jTextField3 (Rata-rata) dan jTextField4 (Predikat Total)
-            jTextField3.setText(String.format("%.2f", rataFinal));
-
-            if (rataFinal >= 85) {
-                jTextField4.setText("A");
-            } else if (rataFinal >= 75) {
-                jTextField4.setText("B");
-            } else if (rataFinal >= 65) {
-                jTextField4.setText("C");
-            } else {
-                jTextField4.setText("D");
-            }
-
-        } catch (NumberFormatException e) {
-            System.out.println("Error hitungRata: " + e.getMessage());
-        }
-    }
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
+        /**
+         * This method is called from within the constructor to initialize the
+         * form. WARNING: Do NOT modify this code. The content of this method is
+         * always regenerated by the Form Editor.
+         */
+        @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -189,7 +198,6 @@ public class raport extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
         jLabel2.setText("NIS");
 
-        btnCari.setBackground(new java.awt.Color(255, 255, 255));
         btnCari.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
         btnCari.setText("CARI");
         btnCari.addActionListener(new java.awt.event.ActionListener() {
@@ -249,7 +257,6 @@ public class raport extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
         jLabel6.setText("Predikat");
 
-        btnCetak.setBackground(new java.awt.Color(255, 255, 255));
         btnCetak.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
         btnCetak.setText("CETAK");
         btnCetak.addActionListener(new java.awt.event.ActionListener() {
@@ -258,7 +265,6 @@ public class raport extends javax.swing.JFrame {
             }
         });
 
-        btnBatal.setBackground(new java.awt.Color(255, 255, 255));
         btnBatal.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
         btnBatal.setText("BATAL");
         btnBatal.addActionListener(new java.awt.event.ActionListener() {
@@ -283,15 +289,15 @@ public class raport extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
                     .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(59, 59, 59)
+                .addGap(76, 76, 76)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(117, 117, 117)
                         .addComponent(btnCetak, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(49, 49, 49)
                         .addComponent(btnRefresh)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
                         .addComponent(btnBatal, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30))
                     .addGroup(jPanel3Layout.createSequentialGroup()
@@ -453,8 +459,12 @@ public class raport extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
-    tampilNilai();
-        hitungRata();
+            if (jTextField2.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Silakan masukkan NIS terlebih dahulu!");
+                return;
+            }
+            tampilNilai();
+            hitungRata();
     }//GEN-LAST:event_btnCariActionPerformed
 
     private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
@@ -466,9 +476,9 @@ public class raport extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-dashboard form = new dashboard();
-    form.setVisible(true);
-    this.dispose();          // TODO add your handling code here:
+        dashboard form = new dashboard();
+        form.setVisible(true);
+        this.dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
@@ -480,11 +490,11 @@ dashboard form = new dashboard();
         // Reset data di tabel nilai (jTable1)
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-    
+
     }//GEN-LAST:event_btnRefreshActionPerformed
 
     private void btnBatalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBatalActionPerformed
-        // TODO add your handling code here:
+        btnRefreshActionPerformed(evt); // Memanggil refresh untuk mengosongkan from
     }//GEN-LAST:event_btnBatalActionPerformed
 
     /**
@@ -507,7 +517,7 @@ dashboard form = new dashboard();
             java.util.logging.Logger.getLogger(raport.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
         //</editor-fold>
 
         /* Create and display the form */
