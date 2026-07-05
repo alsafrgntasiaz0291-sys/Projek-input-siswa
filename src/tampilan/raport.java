@@ -58,13 +58,13 @@ import koneksi.koneksi;
             try {
                 Connection conn = koneksi.getConnection();
 
-                String sql =
-                "SELECT nis,nama,nama_mapel,kkm, " +
-                "uh, uts, uas,predikat,keterangan " +
-                "FROM nilai n " +
-                "JOIN siswa s ON n.id_siswa = id_siswa " +
-                "JOIN mapel ON id_mapel = id_mapel " +
-                "WHERE nis = ?";
+          String sql =
+"SELECT s.nis, s.nama, m.nama_mapel, m.kkm, " +
+"n.uh, n.uts, n.uas, n.predikat, n.keterangan " +
+"FROM nilai n " +
+"INNER JOIN siswa s ON n.id_siswa = s.id " +
+"INNER JOIN mapel m ON n.id_mapel = m.id_mapel " +
+"WHERE s.nis = ?";
 
                 PreparedStatement pst = conn.prepareStatement(sql);
 
@@ -109,12 +109,10 @@ import koneksi.koneksi;
                    modelSiswa.addColumn("Kelas");
                    modelSiswa.addColumn("Jurusan");
 
-                 String sqlSiswa =
-                 "SELECT s.nis, s.nama, k.nama_kelas, j.nama_jurusan " +
-                 "FROM siswa s " +
-                 "JOIN kelas k ON s.id_kelas = k.id_kelas " +
-                 "JOIN jurusan j ON s.id_jurusan = j.id_jurusan " +
-                 "WHERE s.nis=?";
+                      String sqlSiswa =
+                    "SELECT nis,nama,kelas,jurusan " +
+                    "FROM siswa " +
+                    "WHERE nis=?";
 
                     PreparedStatement pst2 = conn.prepareStatement(sqlSiswa);
                     pst2.setString(1, nis.getText());
@@ -122,12 +120,12 @@ import koneksi.koneksi;
                     ResultSet rs2 = pst2.executeQuery();
 
                 while(rs2.next()){
-              modelSiswa.addRow(new Object[]{
-                rs2.getString("nis"),
-                rs2.getString("nama"),
-                rs2.getString("nama_kelas"),
-                rs2.getString("nama_jurusan")
-            });
+                    modelSiswa.addRow(new Object[]{
+                    rs2.getString("nis"),
+                    rs2.getString("nama"),
+                    rs2.getString("kelas"),
+                    rs2.getString("jurusan")
+                  }); 
 
             
                 nmsiswa.setText(rs2.getString("nama"));
@@ -284,7 +282,7 @@ import koneksi.koneksi;
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 204));
@@ -409,8 +407,8 @@ import koneksi.koneksi;
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel3)
-                .addGap(12, 12, 12)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -439,25 +437,22 @@ import koneksi.koneksi;
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 615, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(291, 291, 291))
+                .addGap(133, 133, 133))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jLabel8))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(32, 32, 32)
+                .addComponent(jLabel8)
                 .addContainerGap(32, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(84, 84, 84))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(66, 66, 66))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -477,10 +472,10 @@ import koneksi.koneksi;
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(30, 30, 30)
-                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(38, 38, 38)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(59, 59, 59))
