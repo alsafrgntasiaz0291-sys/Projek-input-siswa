@@ -3,7 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package tampilan;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -16,8 +23,54 @@ public class datasiswa extends javax.swing.JFrame {
      */
     public datasiswa() {
         initComponents();
-        
-        jTable1.setModel(inputsiswa.model);
+        tampilData();
+    }
+
+    // ===== TAMBAHKAN CODING INI DI SINI =====
+    private void tampilData() {
+
+        DefaultTableModel model = new DefaultTableModel();
+
+        model.addColumn("No");
+        model.addColumn("NIS");
+        model.addColumn("Nama");
+        model.addColumn("Jurusan");
+        model.addColumn("Kelas");
+        model.addColumn("Agama");
+        model.addColumn("Jenis Kelamin");
+
+        try {
+
+            Connection conn = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/projek01",
+                    "root",
+                    "");
+
+            Statement st = conn.createStatement();
+
+            ResultSet rs = st.executeQuery("SELECT * FROM siswa");
+
+            int no = 1;
+
+            while (rs.next()) {
+
+                model.addRow(new Object[]{
+                    no++,
+                    rs.getString("nis"),
+                    rs.getString("nama"),
+                    rs.getString("jurusan"),
+                    rs.getString("kelas"),
+                    rs.getString("agama"),
+                    rs.getString("JenisKelamin")
+                });
+
+            }
+
+            jTable1.setModel(model);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e.getMessage());
+        }
     }
 
     /**
@@ -33,7 +86,7 @@ public class datasiswa extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        tambahsiswa = new javax.swing.JButton();
         dashboard = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -65,11 +118,11 @@ public class datasiswa extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 0));
 
-        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jButton1.setText("Tambah Siswa");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        tambahsiswa.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        tambahsiswa.setText("Tambah Siswa");
+        tambahsiswa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                tambahsiswaActionPerformed(evt);
             }
         });
 
@@ -97,7 +150,7 @@ public class datasiswa extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tambahsiswa, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(50, 50, 50)
                 .addComponent(dashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(85, 85, 85))
@@ -111,7 +164,7 @@ public class datasiswa extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tambahsiswa, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(dashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(70, 70, 70))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
@@ -153,10 +206,10 @@ public class datasiswa extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void tambahsiswaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tambahsiswaActionPerformed
         new inputsiswa().setVisible(true);
         dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_tambahsiswaActionPerformed
 
     private void dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardActionPerformed
  dashboard form = new dashboard();
@@ -201,12 +254,12 @@ public class datasiswa extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton dashboard;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton tambahsiswa;
     // End of variables declaration//GEN-END:variables
 }
