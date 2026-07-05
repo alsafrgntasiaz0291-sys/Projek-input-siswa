@@ -5,16 +5,15 @@
  */
 
 package tampilan;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-/**
- *
- * @author rafi
- */
+import koneksi.koneksi;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 
 public class inputsiswa extends javax.swing.JFrame {
+     Connection conn = koneksi.getConnection();
     
     public static DefaultTableModel model = new DefaultTableModel();
 
@@ -50,9 +49,9 @@ public class inputsiswa extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        simpan = new javax.swing.JButton();
+        reset = new javax.swing.JButton();
+        lihatdata = new javax.swing.JButton();
         dashboard = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -82,27 +81,27 @@ public class inputsiswa extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 0));
 
-        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jButton1.setText("SIMPAN");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        simpan.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        simpan.setText("SIMPAN");
+        simpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                simpanActionPerformed(evt);
             }
         });
 
-        jButton3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jButton3.setText("RESET");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        reset.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        reset.setText("RESET");
+        reset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                resetActionPerformed(evt);
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jButton4.setText("Lihat Data");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        lihatdata.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
+        lihatdata.setText("Lihat Data");
+        lihatdata.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                lihatdataActionPerformed(evt);
             }
         });
 
@@ -122,7 +121,7 @@ public class inputsiswa extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGap(148, 148, 148)
@@ -130,8 +129,8 @@ public class inputsiswa extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createSequentialGroup()
                             .addGap(139, 139, 139)
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                                .addComponent(reset, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lihatdata, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                                 .addComponent(dashboard, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addContainerGap(108, Short.MAX_VALUE))
         );
@@ -141,11 +140,11 @@ public class inputsiswa extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addComponent(jLabel3)
                 .addGap(81, 81, 81)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(81, 81, 81)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(65, 65, 65)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lihatdata, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(63, 63, 63)
                 .addComponent(dashboard, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -156,6 +155,12 @@ public class inputsiswa extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel2.setText("NIS");
+
+        txtnama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtnamaActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel4.setText("Jenis Kelamin");
@@ -342,38 +347,59 @@ public class inputsiswa extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField5ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String jk = "";
-        if (jrblaki.isSelected()) {
-            jk = "Laki-laki";
-        } else if (jrbcwe.isSelected()) {
-            jk = "Perempuan";
-        }
-        model.addRow(new Object[]{
-            model.getRowCount() + 1,
-            txtnis.getText(),
-            txtnama.getText(),
-            cbjurusan.getSelectedItem().toString(),
-            cbkelas.getSelectedItem().toString(),
-            txtagama.getText(),
-            jk
-        });
-        
+    private void simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanActionPerformed
+
+    String jk = "";
+
+    if (jrblaki.isSelected()) {
+        jk = "Laki-laki";
+    } else if (jrbcwe.isSelected()) {
+        jk = "Perempuan";
+    }
+
+    try { Connection coon = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/projek01",
+                "root",
+                "");
+
+        String sql = "INSERT INTO siswa "
+                + "(nis,nama,jurusan,kelas,agama,JenisKelamin,Alamat)"
+                + " VALUES (?,?,?,?,?,?,?)";
+
+        PreparedStatement pst = coon.prepareStatement(sql);
+
+        pst.setString(1, txtnis.getText());
+        pst.setString(2, txtnama.getText());
+        pst.setString(3, cbjurusan.getSelectedItem().toString());
+        pst.setString(4, cbkelas.getSelectedItem().toString());
+        pst.setString(5, txtagama.getText());
+        pst.setString(6, jk);
+        pst.setString(7, txtalamat.getText());
+
+        pst.executeUpdate();
+
         JOptionPane.showMessageDialog(this, "Data berhasil disimpan");
-        
+
         txtnama.setText("");
         txtnis.setText("");
         txtagama.setText("");
-        jTextField5.setText("");
-        jTextField1.setText("");
         txtalamat.setText("");
-        
+
         cbjurusan.setSelectedIndex(0);
         cbkelas.setSelectedIndex(0);
-        
+
         jrblaki.setSelected(false);
         jrbcwe.setSelected(false);
-    }//GEN-LAST:event_jButton1ActionPerformed
+
+        pst.close();
+        coon.close();
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this, e.getMessage());
+
+    }
+    }//GEN-LAST:event_simpanActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
@@ -383,7 +409,7 @@ public class inputsiswa extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cbjurusanActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
         txtnama.setText("");
         txtnis.setText("");
         txtagama.setText("");
@@ -396,18 +422,22 @@ public class inputsiswa extends javax.swing.JFrame {
         
         jrblaki.setSelected(false);
         jrbcwe.setSelected(false);
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_resetActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void lihatdataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lihatdataActionPerformed
         new datasiswa().setVisible(true);
         dispose();
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_lihatdataActionPerformed
 
     private void dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardActionPerformed
 dashboard form = new dashboard();
     form.setVisible(true);
     this.dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_dashboardActionPerformed
+
+    private void txtnamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnamaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtnamaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -448,9 +478,6 @@ dashboard form = new dashboard();
     private javax.swing.JComboBox<String> cbjurusan;
     private javax.swing.JComboBox<String> cbkelas;
     private javax.swing.JButton dashboard;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -468,6 +495,9 @@ dashboard form = new dashboard();
     private javax.swing.JTextField jTextField5;
     private javax.swing.JRadioButton jrbcwe;
     private javax.swing.JRadioButton jrblaki;
+    private javax.swing.JButton lihatdata;
+    private javax.swing.JButton reset;
+    private javax.swing.JButton simpan;
     private javax.swing.JTextField txtagama;
     private javax.swing.JTextArea txtalamat;
     private javax.swing.JTextField txtnama;
