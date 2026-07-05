@@ -14,6 +14,8 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import koneksi.koneksi;
+import java.sql.DriverManager;
+import java.sql.Statement;
 /**
  *
  * @author rafi
@@ -35,37 +37,37 @@ public class inputjurusan extends javax.swing.JFrame {
     }
     
   private void tampilData(){
+     DefaultTableModel model = new DefaultTableModel();
 
-    model = new DefaultTableModel();
-
-    model.addColumn("Id Jurusan");
+    model.addColumn("ID Jurusan");
     model.addColumn("Nama Jurusan");
-    if (conn == null) {
-            JOptionPane.showMessageDialog(null, "Gagal memuat data: Koneksi database terputus!");
-            return;
-        }
 
     try {
 
-        String sql = "SELECT * FROM jurusan";
-        pst = conn.prepareStatement(sql);
-        rs = pst.executeQuery();
+        Statement st = conn.createStatement();
 
-        while(rs.next()){
+        ResultSet rs = st.executeQuery("SELECT * FROM jurusan");
+
+        while (rs.next()) {
 
             model.addRow(new Object[]{
                 rs.getString("id_jurusan"),
                 rs.getString("nama_jurusan")
             });
+
         }
 
-        tblJurusan.setModel(model);
+        table.setModel(model);
 
-    } catch (Exception e){
-        JOptionPane.showMessageDialog(null, "Gagal memuat data dari database: " + e.getMessage());
+        rs.close();
+        st.close();
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this, e.getMessage());
+
     }
 }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -79,14 +81,14 @@ public class inputjurusan extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtIdJurusan = new javax.swing.JTextField();
-        txtNamaJurusan = new javax.swing.JTextField();
-        btnUbah = new javax.swing.JButton();
-        btnSimpan = new javax.swing.JButton();
-        btnHapus = new javax.swing.JButton();
+        idjurusan = new javax.swing.JTextField();
+        namajurusan = new javax.swing.JTextField();
+        ubah = new javax.swing.JButton();
+        simpan = new javax.swing.JButton();
+        hapus = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblJurusan = new javax.swing.JTable();
+        table = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
@@ -105,36 +107,36 @@ public class inputjurusan extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
         jLabel3.setText("Nama Jurusan");
 
-        txtIdJurusan.addActionListener(new java.awt.event.ActionListener() {
+        idjurusan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdJurusanActionPerformed(evt);
+                idjurusanActionPerformed(evt);
             }
         });
 
-        btnUbah.setBackground(new java.awt.Color(255, 255, 255));
-        btnUbah.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        btnUbah.setText("Ubah");
-        btnUbah.addActionListener(new java.awt.event.ActionListener() {
+        ubah.setBackground(new java.awt.Color(255, 255, 255));
+        ubah.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        ubah.setText("Ubah");
+        ubah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUbahActionPerformed(evt);
+                ubahActionPerformed(evt);
             }
         });
 
-        btnSimpan.setBackground(new java.awt.Color(255, 255, 255));
-        btnSimpan.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        btnSimpan.setText("Simpan");
-        btnSimpan.addActionListener(new java.awt.event.ActionListener() {
+        simpan.setBackground(new java.awt.Color(255, 255, 255));
+        simpan.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        simpan.setText("Simpan");
+        simpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSimpanActionPerformed(evt);
+                simpanActionPerformed(evt);
             }
         });
 
-        btnHapus.setBackground(new java.awt.Color(255, 255, 255));
-        btnHapus.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        btnHapus.setText("Hapus");
-        btnHapus.addActionListener(new java.awt.event.ActionListener() {
+        hapus.setBackground(new java.awt.Color(255, 255, 255));
+        hapus.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
+        hapus.setText("Hapus");
+        hapus.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHapusActionPerformed(evt);
+                hapusActionPerformed(evt);
             }
         });
 
@@ -145,22 +147,22 @@ public class inputjurusan extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(226, 226, 226)
-                        .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(147, 147, 147)
-                        .addComponent(btnUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(176, 176, 176)
-                        .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(262, 262, 262)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2))
                         .addGap(93, 93, 93)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtIdJurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNamaJurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(234, Short.MAX_VALUE))
+                            .addComponent(idjurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(namajurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 420, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(208, 208, 208)
+                        .addComponent(simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(142, 142, 142)
+                        .addComponent(ubah, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(138, 138, 138)
+                        .addComponent(hapus, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(295, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -168,22 +170,22 @@ public class inputjurusan extends javax.swing.JFrame {
                 .addGap(49, 49, 49)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtIdJurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(idjurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
-                    .addComponent(txtNamaJurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
+                    .addComponent(namajurusan, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUbah, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnHapus, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45))
+                    .addComponent(simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ubah, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(hapus, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 204));
 
-        tblJurusan.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null},
                 {null, null},
@@ -194,12 +196,12 @@ public class inputjurusan extends javax.swing.JFrame {
                 "Id Jurusan", "Nama Jurusan"
             }
         ));
-        tblJurusan.addMouseListener(new java.awt.event.MouseAdapter() {
+        table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblJurusanMouseClicked(evt);
+                tableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblJurusan);
+        jScrollPane1.setViewportView(table);
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 2, 13)); // NOI18N
         jLabel4.setText("Daftar Jurusan");
@@ -223,7 +225,7 @@ public class inputjurusan extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -294,7 +296,7 @@ public class inputjurusan extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -311,22 +313,19 @@ public class inputjurusan extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtIdJurusanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdJurusanActionPerformed
+    private void idjurusanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idjurusanActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdJurusanActionPerformed
+    }//GEN-LAST:event_idjurusanActionPerformed
 
-    private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-      if (conn == null) {
-            JOptionPane.showMessageDialog(null, "Aksi ditolak: Koneksi ke database tidak tersedia!");
-            return;
-        }
-    try {
+    private void simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanActionPerformed
+        try {
 
-        String sql = "INSERT INTO jurusan(nama_jurusan) VALUES(?)";
+        String sql = "INSERT INTO jurusan(id_jurusan,nama_jurusan) VALUES(?,?)";
 
         pst = conn.prepareStatement(sql);
 
-        pst.setString(1, txtNamaJurusan.getText());
+        pst.setString(1, idjurusan.getText());
+        pst.setString(2, namajurusan.getText());
 
         pst.executeUpdate();
 
@@ -334,15 +333,19 @@ public class inputjurusan extends javax.swing.JFrame {
 
         tampilData();
 
-        txtIdJurusan.setText("");
-        txtNamaJurusan.setText("");
+        idjurusan.setText("");
+        namajurusan.setText("");
 
-    } catch (HeadlessException | SQLException e){
-        JOptionPane.showMessageDialog(null, e);
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(null, e.getMessage());
+
     }
-    }//GEN-LAST:event_btnSimpanActionPerformed
 
-    private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
+
+    }//GEN-LAST:event_simpanActionPerformed
+
+    private void hapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hapusActionPerformed
     if (conn == null) {
             JOptionPane.showMessageDialog(null, "Aksi ditolak: Koneksi ke database tidak tersedia!");
             return;
@@ -353,7 +356,7 @@ public class inputjurusan extends javax.swing.JFrame {
 
         pst = conn.prepareStatement(sql);
 
-        pst.setString(1, txtIdJurusan.getText());
+        pst.setString(1, idjurusan.getText());
 
         pst.executeUpdate();
 
@@ -361,26 +364,26 @@ public class inputjurusan extends javax.swing.JFrame {
 
         tampilData();
 
-        txtIdJurusan.setText("");
-        txtNamaJurusan.setText("");
+        idjurusan.setText("");
+        namajurusan.setText("");
 
     } catch(HeadlessException | SQLException e){
         JOptionPane.showMessageDialog(null, "Gagal Hapus: " + e.getMessage());
     }
-    }//GEN-LAST:event_btnHapusActionPerformed
+    }//GEN-LAST:event_hapusActionPerformed
 
-    private void tblJurusanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblJurusanMouseClicked
+    private void tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tableMouseClicked
 
 
-    int baris = tblJurusan.getSelectedRow();
+    int baris = table.getSelectedRow();
 
     if(baris != -1) {
-            txtIdJurusan.setText(tblJurusan.getValueAt(baris, 0).toString());
-            txtNamaJurusan.setText(tblJurusan.getValueAt(baris, 1).toString());
+            idjurusan.setText(table.getValueAt(baris, 0).toString());
+            namajurusan.setText(table.getValueAt(baris, 1).toString());
         } // TODO add your handling code here:
-    }//GEN-LAST:event_tblJurusanMouseClicked
+    }//GEN-LAST:event_tableMouseClicked
 
-    private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
+    private void ubahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubahActionPerformed
     if (conn == null) {
             JOptionPane.showMessageDialog(null, "Aksi ditolak: Koneksi ke database tidak tersedia!");
             return;
@@ -391,8 +394,8 @@ public class inputjurusan extends javax.swing.JFrame {
 
         pst = conn.prepareStatement(sql);
 
-        pst.setString(1, txtNamaJurusan.getText());
-        pst.setString(2, txtIdJurusan.getText());
+        pst.setString(1, namajurusan.getText());
+        pst.setString(2, idjurusan.getText());
 
         pst.executeUpdate();
 
@@ -400,14 +403,14 @@ public class inputjurusan extends javax.swing.JFrame {
 
         tampilData();
 
-        txtIdJurusan.setText("");
-        txtNamaJurusan.setText("");
+        idjurusan.setText("");
+        namajurusan.setText("");
 
     } catch(HeadlessException | SQLException e){
        JOptionPane.showMessageDialog(null, "Gagal Ubah: " + e.getMessage());
         }
         
-    }//GEN-LAST:event_btnUbahActionPerformed
+    }//GEN-LAST:event_ubahActionPerformed
 
     private void dashboardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dashboardActionPerformed
 dashboard form = new dashboard();
@@ -437,10 +440,9 @@ dashboard form = new dashboard();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnHapus;
-    private javax.swing.JButton btnSimpan;
-    private javax.swing.JButton btnUbah;
     private javax.swing.JButton dashboard;
+    private javax.swing.JButton hapus;
+    private javax.swing.JTextField idjurusan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -451,8 +453,9 @@ dashboard form = new dashboard();
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblJurusan;
-    private javax.swing.JTextField txtIdJurusan;
-    private javax.swing.JTextField txtNamaJurusan;
+    private javax.swing.JTextField namajurusan;
+    private javax.swing.JButton simpan;
+    private javax.swing.JTable table;
+    private javax.swing.JButton ubah;
     // End of variables declaration//GEN-END:variables
 }
