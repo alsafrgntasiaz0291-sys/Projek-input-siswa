@@ -4,7 +4,11 @@
  * and open the template in the editor.
  */
 package tampilan;
-
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 /**
  *
  * @author rafi
@@ -19,15 +23,56 @@ public class dataguru extends javax.swing.JFrame {
      */
     public dataguru() {
         initComponents();
-        
-        if (model == null) {
-            model = new DefaultTableModel(
-            new Object[]{"No", "NIP", "Nama", "No. Telp", "Email", "Agama", "Jenis Kelamin"}, 0
-        );
+    DefaultTableModel model = new DefaultTableModel();
+
+    model.addColumn("No");
+    model.addColumn("NIP");
+    model.addColumn("Nama");
+    model.addColumn("No. Telp");
+    model.addColumn("Email");
+    model.addColumn("Agama");
+    model.addColumn("jk");
+
+    try{
+
+        Connection conn = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/projek01",
+                "root",
+                "");
+
+        Statement st = conn.createStatement();
+
+        ResultSet rs = st.executeQuery("SELECT * FROM guru");
+
+        int no = 1;
+
+        while(rs.next()){
+
+            model.addRow(new Object[]{
+                no++,
+                rs.getString("nip"),
+                rs.getString("nama"),
+                rs.getString("notelp"),
+                rs.getString("email"),
+                rs.getString("agama"),
+                rs.getString("jk")
+            });
+
         }
-        jTable1.setModel(inputguru.model);
+
+        jTable1.setModel(model);
+
+        rs.close();
+        st.close();
+        conn.close();
+
+    }catch(Exception e){
+
+        JOptionPane.showMessageDialog(null,e.getMessage());
+
     }
 
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
