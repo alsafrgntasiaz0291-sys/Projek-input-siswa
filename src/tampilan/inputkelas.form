@@ -96,21 +96,21 @@
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton2" min="-2" pref="164" max="-2" attributes="0"/>
+                              <Component id="hapus" min="-2" pref="164" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                              <Component id="jButton1" min="-2" pref="174" max="-2" attributes="0"/>
+                              <Component id="simpan" min="-2" pref="174" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="74" max="-2" attributes="0"/>
-                              <Component id="jButton3" min="-2" pref="173" max="-2" attributes="0"/>
+                              <Component id="ubah" min="-2" pref="173" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jComboBox1" alignment="0" min="-2" pref="158" max="-2" attributes="0"/>
+                          <Component id="jurusan" alignment="0" min="-2" pref="158" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="jTextField2" alignment="0" pref="350" max="32767" attributes="0"/>
-                              <Component id="jTextField1" alignment="0" max="32767" attributes="0"/>
+                              <Component id="namakelas" alignment="0" pref="350" max="32767" attributes="0"/>
+                              <Component id="kelas" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="267" max="32767" attributes="0"/>
@@ -123,23 +123,23 @@
                       <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField1" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="kelas" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jTextField2" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="namakelas" alignment="3" min="-2" pref="33" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jComboBox1" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="jurusan" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="36" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton3" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
-                          <Component id="jButton1" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
-                          <Component id="jButton2" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
+                          <Component id="ubah" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
+                          <Component id="simpan" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
+                          <Component id="hapus" alignment="3" min="-2" pref="52" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
                   </Group>
@@ -155,9 +155,9 @@
                 <Property name="text" type="java.lang.String" value="Id Kelas      :"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField1">
+            <Component class="javax.swing.JTextField" name="kelas">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="kelasActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
@@ -168,9 +168,9 @@
                 <Property name="text" type="java.lang.String" value="Nama Kelas :"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="jTextField2">
+            <Component class="javax.swing.JTextField" name="namakelas">
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="namakelasActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
@@ -181,7 +181,7 @@
                 <Property name="text" type="java.lang.String" value="Jurusan       :"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="jComboBox1">
+            <Component class="javax.swing.JComboBox" name="jurusan">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
@@ -195,7 +195,7 @@
                 <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
               </AuxValues>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="simpan">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -206,10 +206,10 @@
                 <Property name="text" type="java.lang.String" value="SIMPAN"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="simpanActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton2">
+            <Component class="javax.swing.JButton" name="hapus">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -219,8 +219,11 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="HAPUS"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hapusActionPerformed"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton3">
+            <Component class="javax.swing.JButton" name="ubah">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -231,7 +234,7 @@
                 <Property name="text" type="java.lang.String" value="UBAH"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ubahActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>
@@ -356,7 +359,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
+                <Component class="javax.swing.JTable" name="table">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="3" rowCount="4">
