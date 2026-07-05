@@ -36,7 +36,7 @@ public class dashboard extends javax.swing.JFrame {
         inputjurusan = new javax.swing.JButton();
         inputkelas = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnJadwal = new javax.swing.JButton();
         inputguru = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -80,8 +80,13 @@ public class dashboard extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(255, 255, 255));
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/absensiswi.png"))); // NOI18N
 
-        jButton5.setBackground(new java.awt.Color(255, 255, 255));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/AbsenSiswa.png"))); // NOI18N
+        btnJadwal.setBackground(new java.awt.Color(255, 255, 255));
+        btnJadwal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/AbsenSiswa.png"))); // NOI18N
+        btnJadwal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnJadwalActionPerformed(evt);
+            }
+        });
 
         inputguru.setBackground(new java.awt.Color(255, 255, 255));
         inputguru.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Guru.png"))); // NOI18N
@@ -109,7 +114,6 @@ public class dashboard extends javax.swing.JFrame {
 
         jButton4.setBackground(new java.awt.Color(255, 255, 255));
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/AbsenGuru.png"))); // NOI18N
-        jButton4.setActionCommand("");
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo (1).png"))); // NOI18N
 
@@ -126,7 +130,7 @@ public class dashboard extends javax.swing.JFrame {
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(inputguru, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnJadwal, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(inputkelas)
                             .addComponent(inputjurusan)
@@ -150,7 +154,7 @@ public class dashboard extends javax.swing.JFrame {
                 .addGap(33, 33, 33)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(32, 32, 32)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnJadwal, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
                 .addComponent(inputguru, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
@@ -236,6 +240,14 @@ raport form = new raport();
     this.dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void btnJadwalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJadwalActionPerformed
+
+    frmInputJadwal form = new frmInputJadwal();
+    form.setVisible(true);
+
+    this.dispose();
+    }//GEN-LAST:event_btnJadwalActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -264,14 +276,13 @@ raport form = new raport();
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new dashboard().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new dashboard().setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnJadwal;
     private javax.swing.JButton inputguru;
     private javax.swing.JButton inputjurusan;
     private javax.swing.JButton inputkelas;
@@ -280,7 +291,6 @@ raport form = new raport();
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
