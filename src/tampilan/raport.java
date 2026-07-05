@@ -26,6 +26,19 @@ import koneksi.koneksi;
          */
         public raport() {
             initComponents();
+            
+        DefaultTableModel model = new DefaultTableModel();
+        model.addColumn("NO");
+        model.addColumn("Mata Pelajaran");
+        model.addColumn("KKM");
+        model.addColumn("UH");
+        model.addColumn("UTS");
+        model.addColumn("UAS");
+        model.addColumn("Rata-rata");
+        model.addColumn("Predikat");
+        model.addColumn("Keterangan");
+
+       table.setModel(model);
         }
 
         private void tampilNilai() {
@@ -43,69 +56,100 @@ import koneksi.koneksi;
             model.setRowCount(0);
 
             try {
-                Connection conn = koneksi.getkoneksi();
+                Connection conn = koneksi.getConnection();
 
-                String sql = "SELECT mp.nama_mapel, mp.kkm, n.uh, n.uts, n.uas "
-                        + "FROM nilai n "
-                        + "JOIN mata_pelajaran mp "
-                        + "ON n.id_mapel = mp.id_mapel "
-                        + "WHERE n.nis = ?";
+                String sql =
+                "SELECT nis,nama,nama_mapel,kkm, " +
+                "uh, uts, uas,predikat,keterangan " +
+                "FROM nilai n " +
+                "JOIN siswa s ON n.id_siswa = id_siswa " +
+                "JOIN mapel ON id_mapel = id_mapel " +
+                "WHERE nis = ?";
 
                 PreparedStatement pst = conn.prepareStatement(sql);
 
                 // Disamakan dengan komponen NetBeans Anda (jTextField2 adalah NIS)
-                pst.setString(1, jTextField2.getText());
+                pst.setString(1, nis.getText());
 
                 ResultSet rs = pst.executeQuery();
+                if (!rs.isBeforeFirst()) {
+                JOptionPane.showMessageDialog(null, "NIS tidak ditemukan atau belum memiliki data nilai!");
+                return;
+              }
                 int no = 1;
 
                 while (rs.next()) {
-                    double rata = (rs.getDouble("uh")
-                            + rs.getDouble("uts")
-                            + rs.getDouble("uas")) / 3;
+                double rata =
+                             (rs.getDouble("uh")
+                             + rs.getDouble("uts")
+                             + rs.getDouble("uas")) / 3;
 
-                    String predikat;
-                    if (rata >= 85) {
-                        predikat = "A";
-                    } else if (rata >= 75) {
-                        predikat = "B";
-                    } else if (rata >= 65) {
-                        predikat = "C";
-                    } else {
-                        predikat = "D";
-                    }
+                 String predikat = rs.getString("predikat");
+                 String ket = rs.getString("keterangan");
 
-                    String ket;
-                    if (rata >= rs.getInt("kkm")) {
-                        ket = "Tuntas";
-                    } else {
-                        ket = "Tidak Tuntas";
-                    }
-
-                    model.addRow(new Object[]{
-                        no++,
-                        rs.getString("nama_mapel"),
-                        rs.getInt("kkm"),
-                        rs.getDouble("uh"),
-                        rs.getDouble("uts"),
-                        rs.getDouble("uas"),
-                        String.format("%.2f", rata),
-                        predikat,
-                        ket
+                  model.addRow(new Object[]{
+                    no++,
+                    rs.getString("nama_mapel"),
+                    rs.getInt("kkm"),
+                    rs.getDouble("uh"),
+                    rs.getDouble("uts"),
+                    rs.getDouble("uas"),
+                    String.format("%.2f", rata),
+                    predikat,
+                    ket
                     });
                 }
 
                 // Disamakan dengan komponen NetBeans Anda (jTable1 adalah Tabel Nilai)
-                jTable1.setModel(model);
+                table.setModel(model);
+                DefaultTableModel modelSiswa = new DefaultTableModel();
 
-            } catch (SQLException e) {
-                System.out.println("Error tampilNilai: " + e.getMessage());
+                   modelSiswa.addColumn("NIS");
+                   modelSiswa.addColumn("Nama");
+                   modelSiswa.addColumn("Kelas");
+                   modelSiswa.addColumn("Jurusan");
+
+                 String sqlSiswa =
+                 "SELECT s.nis, s.nama, k.nama_kelas, j.nama_jurusan " +
+                 "FROM siswa s " +
+                 "JOIN kelas k ON s.id_kelas = k.id_kelas " +
+                 "JOIN jurusan j ON s.id_jurusan = j.id_jurusan " +
+                 "WHERE s.nis=?";
+
+                    PreparedStatement pst2 = conn.prepareStatement(sqlSiswa);
+                    pst2.setString(1, nis.getText());
+
+                    ResultSet rs2 = pst2.executeQuery();
+
+                while(rs2.next()){
+              modelSiswa.addRow(new Object[]{
+                rs2.getString("nis"),
+                rs2.getString("nama"),
+                rs2.getString("nama_kelas"),
+                rs2.getString("nama_jurusan")
+            });
+
+            
+                nmsiswa.setText(rs2.getString("nama"));
+            }
+
+        jTable2.setModel(modelSiswa);
+
+        rs2.close();
+        pst2.close();
+        rs.close();
+        pst.close();
+        conn.close();
+            }
+           catch (SQLException e) {
+            e.printStackTrace();
+                 JOptionPane.showMessageDialog(null, e.getMessage());
             }
         }
 
         private void hitungRata() {
             try {
-                int rowCount = jTable1.getRowCount();
+                int rowCount = table.getRowCount();
                 if (rowCount == 0) {
                     return;
                 }
@@ -114,23 +158,23 @@ import koneksi.koneksi;
 
                 for (int i = 0; i < rowCount; i++) {
                     // Mengambil nilai dari kolom Rata-rata (indeks ke-6)
-                    String nilaiStr = jTable1.getValueAt(i, 6).toString().replace(",", ".");
+                    String nilaiStr = table.getValueAt(i, 6).toString().replace(",", ".");
                     totalRataRataSemuaMapel += Double.parseDouble(nilaiStr);
                 }
 
                 double rataFinal = totalRataRataSemuaMapel / rowCount;
 
                 // Set ke jTextField3 (Rata-rata) dan jTextField4 (Predikat Total)
-                jTextField3.setText(String.format("%.2f", rataFinal));
+                ratarata.setText(String.format("%.2f", rataFinal));
 
                 if (rataFinal >= 85) {
-                    jTextField4.setText("A");
+                    predikat.setText("A");
                 } else if (rataFinal >= 75) {
-                    jTextField4.setText("B");
+                    predikat.setText("B");
                 } else if (rataFinal >= 65) {
-                    jTextField4.setText("C");
+                    predikat.setText("C");
                 } else {
-                    jTextField4.setText("D");
+                    predikat.setText("D");
                 }
 
             } catch (NumberFormatException e) {
@@ -153,21 +197,21 @@ import koneksi.koneksi;
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        nmsiswa = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        btnCari = new javax.swing.JButton();
+        nis = new javax.swing.JTextField();
+        cari = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
+        ratarata = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        predikat = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         btnCetak = new javax.swing.JButton();
         btnBatal = new javax.swing.JButton();
         btnRefresh = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -198,11 +242,11 @@ import koneksi.koneksi;
         jLabel2.setFont(new java.awt.Font("Times New Roman", 0, 13)); // NOI18N
         jLabel2.setText("NIS");
 
-        btnCari.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
-        btnCari.setText("CARI");
-        btnCari.addActionListener(new java.awt.event.ActionListener() {
+        cari.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
+        cari.setText("CARI");
+        cari.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCariActionPerformed(evt);
+                cariActionPerformed(evt);
             }
         });
 
@@ -219,13 +263,13 @@ import koneksi.koneksi;
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField1)
+                        .addComponent(nmsiswa)
                         .addGap(32, 32, 32)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(nis, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnCari)
+                        .addComponent(cari)
                         .addGap(44, 44, 44))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -234,9 +278,9 @@ import koneksi.koneksi;
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCari)
+                    .addComponent(nmsiswa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nis, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cari)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,9 +289,9 @@ import koneksi.koneksi;
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 204));
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        ratarata.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                ratarataActionPerformed(evt);
             }
         });
 
@@ -288,11 +332,11 @@ import koneksi.koneksi;
                 .addGap(104, 104, 104)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ratarata, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(76, 76, 76)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(predikat, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(117, 117, 117)
                         .addComponent(btnCetak, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(49, 49, 49)
@@ -320,14 +364,14 @@ import koneksi.koneksi;
                     .addComponent(jLabel6))
                 .addGap(5, 5, 5)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ratarata, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(predikat, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 204));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -338,10 +382,10 @@ import koneksi.koneksi;
                 "NO", "Mata Pelajaran", "KKM", "UH", "UTS", "UAS", "Rata-rata", "Predikat", "Keterangan"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setMinWidth(30);
-            jTable1.getColumnModel().getColumn(0).setMaxWidth(30);
+        jScrollPane1.setViewportView(table);
+        if (table.getColumnModel().getColumnCount() > 0) {
+            table.getColumnModel().getColumn(0).setMinWidth(30);
+            table.getColumnModel().getColumn(0).setMaxWidth(30);
         }
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 2, 13)); // NOI18N
@@ -458,22 +502,22 @@ import koneksi.koneksi;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
-            if (jTextField2.getText().trim().isEmpty()) {
+    private void cariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cariActionPerformed
+            if (nis.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Silakan masukkan NIS terlebih dahulu!");
                 return;
             }
             tampilNilai();
             hitungRata();
-    }//GEN-LAST:event_btnCariActionPerformed
+    }//GEN-LAST:event_cariActionPerformed
 
     private void btnCetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCetakActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCetakActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void ratarataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ratarataActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_ratarataActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         dashboard form = new dashboard();
@@ -482,13 +526,13 @@ import koneksi.koneksi;
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
-        jTextField1.setText(""); // Cari nama
-        jTextField2.setText(""); // NIS
-        jTextField3.setText(""); // Rata-rata bawah
-        jTextField4.setText(""); // Predikat bawah
+        nmsiswa.setText(""); // Cari nama
+        nis.setText(""); // NIS
+        ratarata.setText(""); // Rata-rata bawah
+        predikat.setText(""); // Predikat bawah
 
         // Reset data di tabel nilai (jTable1)
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
 
     }//GEN-LAST:event_btnRefreshActionPerformed
@@ -528,9 +572,9 @@ import koneksi.koneksi;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBatal;
-    private javax.swing.JButton btnCari;
     private javax.swing.JButton btnCetak;
     private javax.swing.JButton btnRefresh;
+    private javax.swing.JButton cari;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
@@ -547,11 +591,11 @@ import koneksi.koneksi;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField nis;
+    private javax.swing.JTextField nmsiswa;
+    private javax.swing.JTextField predikat;
+    private javax.swing.JTextField ratarata;
+    private javax.swing.JTable table;
     // End of variables declaration//GEN-END:variables
 }
