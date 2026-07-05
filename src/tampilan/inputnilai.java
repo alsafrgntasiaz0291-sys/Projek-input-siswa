@@ -4,9 +4,6 @@
  * and open the template in the editor.
  */
 package tampilan;
-import koneksi.koneksi;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.HeadlessException;
@@ -14,12 +11,15 @@ import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import koneksi.koneksi;
 /**
  *
  * @author rafi
  */
 public class inputnilai extends javax.swing.JFrame {
-
+ Connection conn = koneksi.getConnection();
     /**
      * Creates new form inputnilai
      */
@@ -322,6 +322,11 @@ public class inputnilai extends javax.swing.JFrame {
 
         simpan.setBackground(new java.awt.Color(255, 255, 255));
         simpan.setText("Simpan");
+        simpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                simpanActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -330,20 +335,18 @@ public class inputnilai extends javax.swing.JFrame {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel8)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jLabel8)
+                        .addContainerGap(1477, Short.MAX_VALUE))
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1029, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 192, Short.MAX_VALUE)
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addGap(62, 62, 62)
-                                .addComponent(simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(reset, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(batal, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(batal, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -353,8 +356,9 @@ public class inputnilai extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
                         .addComponent(simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20)
+                        .addGap(18, 18, 18)
                         .addComponent(batal, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
                         .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -471,6 +475,52 @@ dashboard form = new dashboard();
     form.setVisible(true);
     this.dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simpanActionPerformed
+
+    if (txtnis.getText().trim().equals("")) {
+        JOptionPane.showMessageDialog(this,
+                "Mohon cari siswa terlebih dahulu!");
+        return;
+    }
+
+    try {
+
+        DefaultTableModel model =
+                (DefaultTableModel) jTable1.getModel();
+
+        String sql = "INSERT INTO tabel_nilai "
+                + "(nis,mapel,kkm,uh,uts,uas,rata_rata)"
+                + " VALUES (?,?,?,?,?,?,?)";
+
+        PreparedStatement pst = conn.prepareStatement(sql);
+
+        for (int i = 0; i < model.getRowCount(); i++) {
+
+            pst.setString(1, txtnis.getText());
+            pst.setString(2, model.getValueAt(i, 1).toString());
+            pst.setString(3, model.getValueAt(i, 2).toString());
+            pst.setString(4, model.getValueAt(i, 3).toString());
+            pst.setString(5, model.getValueAt(i, 4).toString());
+            pst.setString(6, model.getValueAt(i, 5).toString());
+            pst.setString(7, model.getValueAt(i, 6).toString());
+
+            pst.executeUpdate();
+        }
+
+        pst.close();
+
+        JOptionPane.showMessageDialog(this,
+                "Data berhasil disimpan.");
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this,
+                "Terjadi kesalahan : " + e.getMessage());
+
+    }
+// TODO add your handling code here:
+    }//GEN-LAST:event_simpanActionPerformed
 
     /**
      * @param args the command line arguments
