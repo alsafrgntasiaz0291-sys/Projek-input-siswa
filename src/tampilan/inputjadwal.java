@@ -325,12 +325,24 @@ public class inputjadwal extends javax.swing.JPanel {
     }//GEN-LAST:event_cmbRuanganActionPerformed
 
     private void btnhomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnhomeActionPerformed
-        // TODO add your handling code here:
+        dashboard form = new dashboard();  
+    form.setVisible(true);
+
+    java.awt.Window window =
+        javax.swing.SwingUtilities.getWindowAncestor(this);
+
+    if(window != null){
+    window.dispose();
+}
     }//GEN-LAST:event_btnhomeActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
     try{
-
+        System.out.println("Jurusan  : " + cmbJurusan.getSelectedItem());
+System.out.println("Kelas    : " + cmbKelas.getSelectedItem());
+System.out.println("Mapel    : " + cmbMapel.getSelectedItem());
+System.out.println("Guru     : " + cmbGuru.getSelectedItem());
+System.out.println("Ruangan  : " + cmbRuangan.getSelectedItem());
         String sql =
         "INSERT INTO jadwal(jurusan,kelas,mapel,guru,ruangan,hari,jam,keterangan)"
         + " VALUES('"
@@ -594,5 +606,9 @@ public class inputjadwal extends javax.swing.JPanel {
     private javax.swing.JTextField txtJam;
     private javax.swing.JTextArea txtket;
     // End of variables declaration//GEN-END:variables
+
+    private void dispose() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }
