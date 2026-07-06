@@ -72,7 +72,21 @@ public class dataguru extends javax.swing.JFrame {
 
     }
 
+    buildDataLayout();
+
 }
+    private void buildDataLayout() {
+        setTitle("Data Guru");
+        javax.swing.JPanel root = new javax.swing.JPanel(new java.awt.BorderLayout());
+        root.setBackground(UiHelper.SOFT_GREEN);
+        root.add(UiHelper.pageHeader(getClass(), "Data Guru", jButton1, dashboard), java.awt.BorderLayout.NORTH);
+
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(28, 28, 28, 28));
+        root.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        setContentPane(root);
+        UiHelper.prepareFrame(this);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
