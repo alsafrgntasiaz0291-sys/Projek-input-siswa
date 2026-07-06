@@ -32,6 +32,7 @@ ButtonGroup bgStatus = new ButtonGroup();
 
     public AbsensiGuru() {
         initComponents();
+        buildAttendanceLayout();
         bgStatus.add(rbHadir);
     bgStatus.add(rbIzin);
     bgStatus.add(rbSakit);
@@ -51,6 +52,92 @@ ButtonGroup bgStatus = new ButtonGroup();
     tampilNIP(); 
     tampilData();
 
+    }
+
+    private void buildAttendanceLayout() {
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                new dashboard().setVisible(true);
+                java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(AbsensiGuru.this);
+                if (window != null) {
+                    window.dispose();
+                }
+            }
+        });
+
+        javax.swing.JPanel form = new javax.swing.JPanel(new java.awt.GridBagLayout());
+        form.setBackground(UiHelper.PALE_YELLOW);
+        form.setBorder(javax.swing.BorderFactory.createEmptyBorder(22, 28, 22, 28));
+
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.insets = new java.awt.Insets(6, 8, 6, 8);
+        gbc.anchor = java.awt.GridBagConstraints.WEST;
+
+        addAttendanceRow(form, gbc, 0, jLabel2, txtIdAbsensi);
+        addAttendanceRow(form, gbc, 1, jLabel3, txtTanggal);
+        addAttendanceRow(form, gbc, 2, jLabel6, cmbNIP);
+        addAttendanceRow(form, gbc, 3, jLabel7, txtNamaGuru);
+        addAttendanceRow(form, gbc, 4, jLabel4, spJamMasuk);
+        addAttendanceRow(form, gbc, 5, jLabel5, spJamKeluar);
+
+        javax.swing.JPanel status = new javax.swing.JPanel(new java.awt.GridLayout(2, 2, 8, 4));
+        status.setOpaque(false);
+        status.add(rbHadir);
+        status.add(rbIzin);
+        status.add(rbSakit);
+        status.add(rbAlpha);
+        addAttendanceRow(form, gbc, 6, jLabel8, status);
+        addAttendanceRow(form, gbc, 7, jLabel9, txtKeterangan);
+
+        javax.swing.JPanel actions = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 16, 0));
+        actions.setOpaque(false);
+        UiHelper.styleButton(btnHapus);
+        UiHelper.styleButton(btnSimpan);
+        UiHelper.styleButton(btnUbah);
+        actions.add(btnHapus);
+        actions.add(btnSimpan);
+        actions.add(btnUbah);
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        gbc.gridwidth = 2;
+        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        form.add(actions, gbc);
+
+        javax.swing.JScrollPane formScroll = new javax.swing.JScrollPane(form);
+        formScroll.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+
+        javax.swing.JPanel tablePanel = new javax.swing.JPanel(new java.awt.BorderLayout());
+        tablePanel.setBackground(UiHelper.PALE_YELLOW);
+        tablePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(22, 22, 22, 22));
+        tablePanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        javax.swing.JPanel body = new javax.swing.JPanel(new java.awt.GridLayout(1, 2, 24, 0));
+        body.setBackground(UiHelper.SOFT_GREEN);
+        body.setBorder(javax.swing.BorderFactory.createEmptyBorder(26, 26, 26, 26));
+        body.add(formScroll);
+        body.add(tablePanel);
+
+        removeAll();
+        setLayout(new java.awt.BorderLayout());
+        add(UiHelper.pageHeader(getClass(), "Absensi Guru", jButton4), java.awt.BorderLayout.NORTH);
+        add(body, java.awt.BorderLayout.CENTER);
+        UiHelper.preparePanel(this);
+    }
+
+    private void addAttendanceRow(javax.swing.JPanel form, java.awt.GridBagConstraints gbc, int row, javax.swing.JLabel label, java.awt.Component input) {
+        label.setFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 18));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+        gbc.fill = java.awt.GridBagConstraints.NONE;
+        form.add(label, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        input.setPreferredSize(new java.awt.Dimension(360, 34));
+        form.add(input, gbc);
     }
     public void tampilNamaGuru() {
 
@@ -721,10 +808,7 @@ public static void main(String args[]) {
     frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
 
     frame.setContentPane(new AbsensiGuru());
-
-    frame.setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
-
-    frame.setLocationRelativeTo(null);
+    UiHelper.prepareFrame(frame);
     frame.setVisible(true);
 }
 }
