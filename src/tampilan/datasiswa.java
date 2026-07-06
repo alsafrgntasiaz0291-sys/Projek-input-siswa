@@ -23,7 +23,21 @@ public class datasiswa extends javax.swing.JFrame {
      */
     public datasiswa() {
         initComponents();
+        buildDataLayout();
         tampilData();
+    }
+
+    private void buildDataLayout() {
+        setTitle("Data Siswa");
+        javax.swing.JPanel root = new javax.swing.JPanel(new java.awt.BorderLayout());
+        root.setBackground(UiHelper.SOFT_GREEN);
+        root.add(UiHelper.pageHeader(getClass(), "Data Siswa", tambahsiswa, dashboard), java.awt.BorderLayout.NORTH);
+
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(28, 28, 28, 28));
+        root.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        setContentPane(root);
+        UiHelper.prepareFrame(this);
     }
 
     // ===== TAMBAHKAN CODING INI DI SINI =====
