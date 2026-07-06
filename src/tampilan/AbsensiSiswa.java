@@ -15,6 +15,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JSpinner;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
+import javax.swing.JLabel;
 
 /**
  *
@@ -26,12 +27,15 @@ public class AbsensiSiswa extends javax.swing.JFrame {
 DefaultTableModel model = new DefaultTableModel();
 
 ButtonGroup bgStatus = new ButtonGroup();
+private javax.swing.JComboBox<String> cmbJurusan;
+private boolean updatingStudentFields;
 
     /**
      * Creates new form AbsensiSiswa
      */
     public AbsensiSiswa() {
         initComponents();
+        buildAttendanceLayout();
         bgStatus.add(rbHadir);
     bgStatus.add(rbIzin);
     bgStatus.add(rbSakit);
@@ -40,7 +44,8 @@ ButtonGroup bgStatus = new ButtonGroup();
     rbHadir.setSelected(true);
 
     txtIdAbsensi.setEditable(false);
-    txtNamaSiswa.setEditable(false);
+    txtNamaSiswa.setEditable(true);
+    pasangNamaListener();
 
     spJamMasuk.setEditor(new JSpinner.DateEditor(spJamMasuk, "HH:mm"));
     spJamKeluar.setEditor(new JSpinner.DateEditor(spJamKeluar, "HH:mm"));
@@ -49,9 +54,121 @@ ButtonGroup bgStatus = new ButtonGroup();
     autoID();
     headerTabel();
     tampilKelas();
+    tampilJurusan();
     tampilNIS();
     tampilData();
 
+    }
+
+    private void buildAttendanceLayout() {
+        setTitle("Absensi Siswa");
+        tblAbsensi.setRowHeight(28);
+        tblAbsensi.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                new dashboard().setVisible(true);
+                dispose();
+            }
+        });
+
+        javax.swing.JPanel form = new javax.swing.JPanel(new java.awt.GridBagLayout());
+        form.setBackground(UiHelper.PALE_YELLOW);
+        form.setBorder(javax.swing.BorderFactory.createEmptyBorder(18, 24, 18, 24));
+
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.insets = new java.awt.Insets(4, 8, 4, 8);
+        gbc.anchor = java.awt.GridBagConstraints.WEST;
+
+        addAttendanceRow(form, gbc, 0, jLabel2, txtIdAbsensi);
+        addAttendanceRow(form, gbc, 1, jLabel3, txtTanggal);
+        addAttendanceRow(form, gbc, 2, jLabel4, cmbKelas);
+        cmbJurusan = new javax.swing.JComboBox<>();
+        cmbJurusan.addItemListener(evt -> {
+            if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+                tampilNIS();
+            }
+        });
+        addAttendanceRow(form, gbc, 3, new JLabel("Jurusan"), cmbJurusan);
+        addAttendanceRow(form, gbc, 4, jLabel7, txtNamaSiswa);
+        addAttendanceRow(form, gbc, 5, jLabel6, cmbNIS);
+        addAttendanceRow(form, gbc, 6, jLabel10, spJamMasuk);
+        addAttendanceRow(form, gbc, 7, jLabel11, spJamKeluar);
+
+        javax.swing.JPanel status = new javax.swing.JPanel(new java.awt.GridLayout(2, 2, 8, 4));
+        status.setOpaque(false);
+        rbHadir.setOpaque(false);
+        rbIzin.setOpaque(false);
+        rbSakit.setOpaque(false);
+        rbAlpha.setOpaque(false);
+        status.add(rbHadir);
+        status.add(rbIzin);
+        status.add(rbSakit);
+        status.add(rbAlpha);
+        addAttendanceRow(form, gbc, 8, jLabel8, status);
+        addAttendanceRow(form, gbc, 9, jLabel9, txtKeterangan);
+
+        javax.swing.JPanel actions = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 16, 0));
+        actions.setOpaque(false);
+        UiHelper.styleButton(btnHapus);
+        UiHelper.styleButton(btnSimpan);
+        UiHelper.styleButton(btnUbah);
+        java.awt.Dimension actionSize = new java.awt.Dimension(118, 44);
+        btnHapus.setPreferredSize(actionSize);
+        btnSimpan.setPreferredSize(actionSize);
+        btnUbah.setPreferredSize(actionSize);
+        actions.add(btnSimpan);
+        actions.add(btnUbah);
+        actions.add(btnHapus);
+        gbc.gridx = 0;
+        gbc.gridy = 10;
+        gbc.gridwidth = 2;
+        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        form.add(actions, gbc);
+
+        javax.swing.JPanel tablePanel = new javax.swing.JPanel(new java.awt.BorderLayout());
+        tablePanel.setBackground(UiHelper.PALE_YELLOW);
+        tablePanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(22, 22, 22, 22));
+        tablePanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        javax.swing.JPanel body = new javax.swing.JPanel(new java.awt.GridBagLayout());
+        body.setBackground(UiHelper.SOFT_GREEN);
+        body.setBorder(javax.swing.BorderFactory.createEmptyBorder(26, 26, 26, 26));
+        java.awt.GridBagConstraints bodyGbc = new java.awt.GridBagConstraints();
+        bodyGbc.gridy = 0;
+        bodyGbc.fill = java.awt.GridBagConstraints.BOTH;
+        bodyGbc.weighty = 1;
+        bodyGbc.gridx = 0;
+        bodyGbc.weightx = 0.40;
+        bodyGbc.insets = new java.awt.Insets(0, 0, 0, 24);
+        body.add(form, bodyGbc);
+        bodyGbc.gridx = 1;
+        bodyGbc.weightx = 0.60;
+        bodyGbc.insets = new java.awt.Insets(0, 0, 0, 0);
+        body.add(tablePanel, bodyGbc);
+
+        javax.swing.JPanel root = new javax.swing.JPanel(new java.awt.BorderLayout());
+        root.add(UiHelper.pageHeader(getClass(), "Absensi Siswa", jButton4), java.awt.BorderLayout.NORTH);
+        root.add(body, java.awt.BorderLayout.CENTER);
+
+        setContentPane(root);
+        UiHelper.prepareFrame(this);
+    }
+
+    private void addAttendanceRow(javax.swing.JPanel form, java.awt.GridBagConstraints gbc, int row, javax.swing.JLabel label, java.awt.Component input) {
+        label.setFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 18));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        gbc.weightx = 0;
+        gbc.fill = java.awt.GridBagConstraints.NONE;
+        form.add(label, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        input.setPreferredSize(new java.awt.Dimension(300, 30));
+        form.add(input, gbc);
     }
 public void tanggalOtomatis() {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -61,6 +178,28 @@ public void autoID() {
     txtIdAbsensi.setText("Otomatis");
 }
 
+public void bersih() {
+    tanggalOtomatis();
+    autoID();
+    if (cmbKelas.getItemCount() > 0) {
+        cmbKelas.setSelectedIndex(0);
+    } else {
+        cmbNIS.removeAllItems();
+        txtNamaSiswa.setText("");
+    }
+    if (cmbJurusan != null && cmbJurusan.getItemCount() > 0) {
+        cmbJurusan.setSelectedIndex(0);
+    }
+    if (cmbNIS.getItemCount() > 0) {
+        cmbNIS.setSelectedIndex(0);
+    }
+    spJamMasuk.setValue(new Date());
+    spJamKeluar.setValue(new Date());
+    rbHadir.setSelected(true);
+    txtKeterangan.setText("");
+    tblAbsensi.clearSelection();
+}
+
 public void headerTabel() {
 
     model = new DefaultTableModel();
@@ -68,6 +207,7 @@ public void headerTabel() {
     model.addColumn("ID Absensi");
     model.addColumn("Tanggal");
     model.addColumn("Kelas");
+    model.addColumn("Jurusan");
     model.addColumn("NIS");
     model.addColumn("Nama Siswa");
     model.addColumn("Jam Masuk");
@@ -76,19 +216,22 @@ public void headerTabel() {
     model.addColumn("Keterangan");
 
     tblAbsensi.setModel(model);
+    aturLebarTabel();
 }
 public void tampilKelas() {
 
     try {
 
         Statement st = conn.createStatement();
-        ResultSet rs = st.executeQuery("SELECT nama_kelas FROM kelas");
+        ResultSet rs = st.executeQuery(
+                "SELECT DISTINCT nama_kelas AS kelas FROM kelas WHERE nama_kelas IS NOT NULL "
+                + "UNION SELECT DISTINCT kelas FROM siswa WHERE kelas IS NOT NULL ORDER BY kelas");
 
         cmbKelas.removeAllItems();
 
         while (rs.next()) {
 
-            cmbKelas.addItem(rs.getString("nama_kelas"));
+            cmbKelas.addItem(rs.getString("kelas"));
 
         }
 
@@ -98,15 +241,52 @@ public void tampilKelas() {
 
     }
 }
-public void tampilNIS() {
+public void tampilJurusan() {
+
+    if (cmbJurusan == null) {
+        return;
+    }
 
     try {
 
         Statement st = conn.createStatement();
-
         ResultSet rs = st.executeQuery(
-        "SELECT nis FROM siswa WHERE kelas='" + cmbKelas.getSelectedItem() + "'");
+                "SELECT DISTINCT nama_jurusan AS jurusan FROM jurusan WHERE nama_jurusan IS NOT NULL "
+                + "UNION SELECT DISTINCT jurusan FROM siswa WHERE jurusan IS NOT NULL ORDER BY jurusan");
 
+        cmbJurusan.removeAllItems();
+
+        while (rs.next()) {
+
+            cmbJurusan.addItem(rs.getString("jurusan"));
+
+        }
+
+    } catch (Exception e) {
+
+        JOptionPane.showMessageDialog(this, e.getMessage());
+
+    }
+}
+public void tampilNIS() {
+
+    try {
+        if (cmbKelas.getSelectedItem() == null || cmbJurusan == null || cmbJurusan.getSelectedItem() == null) {
+            cmbNIS.removeAllItems();
+            return;
+        }
+
+        PreparedStatement ps = conn.prepareStatement(
+                "SELECT nis FROM siswa WHERE kelas=? AND jurusan=? "
+                + "AND (?='' OR nama LIKE ?) ORDER BY nama, nis");
+        ps.setString(1, cmbKelas.getSelectedItem().toString());
+        ps.setString(2, cmbJurusan.getSelectedItem().toString());
+        String nama = txtNamaSiswa.getText().trim();
+        ps.setString(3, nama);
+        ps.setString(4, "%" + nama + "%");
+        ResultSet rs = ps.executeQuery();
+
+        updatingStudentFields = true;
         cmbNIS.removeAllItems();
 
         while (rs.next()) {
@@ -114,44 +294,95 @@ public void tampilNIS() {
             cmbNIS.addItem(rs.getString("nis"));
 
         }
+        if (cmbNIS.getItemCount() > 0) {
+            cmbNIS.setSelectedIndex(0);
+        }
+        updatingStudentFields = false;
 
     } catch (Exception e) {
+        updatingStudentFields = false;
 
-        System.out.println(e.getMessage());
+        JOptionPane.showMessageDialog(this, e.getMessage());
 
     }
 }
     public void tampilNamaSiswa() {
 
     try {
+        if (updatingStudentFields) {
+            return;
+        }
+        if (cmbNIS.getSelectedItem() == null) {
+            return;
+        }
 
-        Statement st = conn.createStatement();
-
-        ResultSet rs = st.executeQuery(
-        "SELECT nama FROM siswa WHERE nis='" + cmbNIS.getSelectedItem() + "'");
+        PreparedStatement ps = conn.prepareStatement("SELECT nama, kelas, jurusan FROM siswa WHERE nis=?");
+        ps.setString(1, cmbNIS.getSelectedItem().toString());
+        ResultSet rs = ps.executeQuery();
 
         if (rs.next()) {
 
+            updatingStudentFields = true;
             txtNamaSiswa.setText(rs.getString("nama"));
+            cmbKelas.setSelectedItem(rs.getString("kelas"));
+            if (cmbJurusan != null) {
+                cmbJurusan.setSelectedItem(rs.getString("jurusan"));
+            }
+            updatingStudentFields = false;
+        } else {
+            txtNamaSiswa.setText("");
 
         }
 
     } catch (Exception e) {
+        updatingStudentFields = false;
 
-        System.out.println(e.getMessage());
+        JOptionPane.showMessageDialog(this, e.getMessage());
 
     }
  }
+private void pasangNamaListener() {
+    txtNamaSiswa.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+        public void insertUpdate(javax.swing.event.DocumentEvent e) {
+            cariNisDariNama();
+        }
+
+        public void removeUpdate(javax.swing.event.DocumentEvent e) {
+            cariNisDariNama();
+        }
+
+        public void changedUpdate(javax.swing.event.DocumentEvent e) {
+            cariNisDariNama();
+        }
+    });
+}
+
+private void cariNisDariNama() {
+    if (updatingStudentFields || cmbJurusan == null) {
+        return;
+    }
+    javax.swing.SwingUtilities.invokeLater(() -> tampilNIS());
+}
+
+private void aturLebarTabel() {
+    int[] widths = {90, 110, 80, 130, 110, 180, 100, 100, 95, 190};
+    for (int i = 0; i < widths.length && i < tblAbsensi.getColumnModel().getColumnCount(); i++) {
+        tblAbsensi.getColumnModel().getColumn(i).setPreferredWidth(widths[i]);
+    }
+}
+
     public int getIdSiswa() {
 
     int id = 0;
 
     try {
+        if (cmbNIS.getSelectedItem() == null) {
+            return 0;
+        }
 
-        Statement st = conn.createStatement();
-
-        ResultSet rs = st.executeQuery(
-        "SELECT id FROM siswa WHERE nis='" + cmbNIS.getSelectedItem() + "'");
+        PreparedStatement ps = conn.prepareStatement("SELECT id FROM siswa WHERE nis=?");
+        ps.setString(1, cmbNIS.getSelectedItem().toString());
+        ResultSet rs = ps.executeQuery();
 
         if(rs.next()){
 
@@ -161,7 +392,7 @@ public void tampilNIS() {
 
     } catch (Exception e) {
 
-        System.out.println(e.getMessage());
+        JOptionPane.showMessageDialog(this, e.getMessage());
 
     }
 
@@ -176,7 +407,7 @@ public void tampilNIS() {
 
         Statement st = conn.createStatement();
 
-        String sql = "SELECT a.id_absensi, a.tanggal, s.kelas, s.nis, s.nama, "
+        String sql = "SELECT a.id_absensi, a.tanggal, s.kelas, s.jurusan, s.nis, s.nama, "
                    + "a.jam_masuk, a.jam_keluar, a.status, a.keterangan "
                    + "FROM absensi a "
                    + "JOIN siswa s ON a.id_siswa = s.id";
@@ -189,6 +420,7 @@ public void tampilNIS() {
                 rs.getInt("id_absensi"),
                 rs.getDate("tanggal"),
                 rs.getString("kelas"),
+                rs.getString("jurusan"),
                 rs.getString("nis"),
                 rs.getString("nama"),
                 rs.getTime("jam_masuk"),
@@ -564,11 +796,15 @@ public void tampilNIS() {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmbKelasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbKelasItemStateChanged
-tampilNIS();        // TODO add your handling code here:
+if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+    tampilNIS();
+}        // TODO add your handling code here:
     }//GEN-LAST:event_cmbKelasItemStateChanged
 
     private void cmbNISItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cmbNISItemStateChanged
-tampilNamaSiswa();        // TODO add your handling code here:
+if (evt.getStateChange() == java.awt.event.ItemEvent.SELECTED) {
+    tampilNamaSiswa();
+}        // TODO add your handling code here:
     }//GEN-LAST:event_cmbNISItemStateChanged
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
@@ -590,10 +826,16 @@ tampilNamaSiswa();        // TODO add your handling code here:
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
+        int idSiswa = getIdSiswa();
+        if (idSiswa == 0) {
+            JOptionPane.showMessageDialog(this, "Pilih NIS siswa terlebih dahulu.");
+            return;
+        }
+
         PreparedStatement ps = conn.prepareStatement(
         "INSERT INTO absensi(id_siswa,tanggal,jam_masuk,jam_keluar,status,keterangan) VALUES (?,?,?,?,?,?)");
 
-        ps.setInt(1, getIdSiswa());
+        ps.setInt(1, idSiswa);
         ps.setString(2, txtTanggal.getText());
         ps.setString(3, sdf.format(spJamMasuk.getValue()));
         ps.setString(4, sdf.format(spJamKeluar.getValue()));
@@ -603,9 +845,10 @@ tampilNamaSiswa();        // TODO add your handling code here:
         ps.executeUpdate();
 
         javax.swing.JOptionPane.showMessageDialog(this,"Data berhasil disimpan");
+        tampilData();
+        bersih();
 
     } catch(Exception e){
-        tampilData();
 
         javax.swing.JOptionPane.showMessageDialog(this,e.getMessage());
 
@@ -622,14 +865,17 @@ tampilNamaSiswa();        // TODO add your handling code here:
     txtTanggal.setText(model.getValueAt(baris, 1).toString());
 
     cmbKelas.setSelectedItem(model.getValueAt(baris, 2).toString());
-    cmbNIS.setSelectedItem(model.getValueAt(baris, 3).toString());
+    if (cmbJurusan != null) {
+        cmbJurusan.setSelectedItem(model.getValueAt(baris, 3).toString());
+    }
+    cmbNIS.setSelectedItem(model.getValueAt(baris, 4).toString());
 
-    txtNamaSiswa.setText(model.getValueAt(baris, 4).toString());
+    txtNamaSiswa.setText(model.getValueAt(baris, 5).toString());
 
-    spJamMasuk.setValue(java.sql.Time.valueOf(model.getValueAt(baris, 5).toString()));
-    spJamKeluar.setValue(java.sql.Time.valueOf(model.getValueAt(baris, 6).toString()));
+    spJamMasuk.setValue(java.sql.Time.valueOf(model.getValueAt(baris, 6).toString()));
+    spJamKeluar.setValue(java.sql.Time.valueOf(model.getValueAt(baris, 7).toString()));
 
-    String status = model.getValueAt(baris, 7).toString();
+    String status = model.getValueAt(baris, 8).toString();
 
     if(status.equals("Hadir")){
         rbHadir.setSelected(true);
@@ -641,7 +887,7 @@ tampilNamaSiswa();        // TODO add your handling code here:
         rbAlpha.setSelected(true);
     }
 
-    txtKeterangan.setText(model.getValueAt(baris, 8).toString());
+    txtKeterangan.setText(model.getValueAt(baris, 9).toString());
 
         // TODO add your handling code here:
     }//GEN-LAST:event_tblAbsensiMouseClicked
@@ -649,6 +895,10 @@ tampilNamaSiswa();        // TODO add your handling code here:
     private void btnUbahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUbahActionPerformed
 
     try {
+        if (txtIdAbsensi.getText().trim().isEmpty() || txtIdAbsensi.getText().equals("Otomatis")) {
+            JOptionPane.showMessageDialog(this, "Pilih data di tabel yang mau diubah.");
+            return;
+        }
 
         String status = "";
 
@@ -664,10 +914,16 @@ tampilNamaSiswa();        // TODO add your handling code here:
 
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
+        int idSiswa = getIdSiswa();
+        if (idSiswa == 0) {
+            JOptionPane.showMessageDialog(this, "Pilih NIS siswa terlebih dahulu.");
+            return;
+        }
+
         PreparedStatement ps = conn.prepareStatement(
         "UPDATE absensi SET id_siswa=?, tanggal=?, jam_masuk=?, jam_keluar=?, status=?, keterangan=? WHERE id_absensi=?");
 
-        ps.setInt(1, getIdSiswa());
+        ps.setInt(1, idSiswa);
         ps.setString(2, txtTanggal.getText());
         ps.setString(3, sdf.format(spJamMasuk.getValue()));
         ps.setString(4, sdf.format(spJamKeluar.getValue()));
@@ -680,6 +936,7 @@ tampilNamaSiswa();        // TODO add your handling code here:
         JOptionPane.showMessageDialog(this,"Data berhasil diubah");
 
         tampilData();
+        bersih();
 
     } catch (Exception e) {
 
@@ -694,6 +951,10 @@ tampilNamaSiswa();        // TODO add your handling code here:
 
 
     try {
+        if (txtIdAbsensi.getText().trim().isEmpty() || txtIdAbsensi.getText().equals("Otomatis")) {
+            JOptionPane.showMessageDialog(this, "Pilih data di tabel yang mau dihapus.");
+            return;
+        }
 
         PreparedStatement ps = conn.prepareStatement(
         "DELETE FROM absensi WHERE id_absensi=?");
@@ -705,6 +966,7 @@ tampilNamaSiswa();        // TODO add your handling code here:
         JOptionPane.showMessageDialog(this,"Data berhasil dihapus");
 
         tampilData();
+        bersih();
 
     } catch (Exception e) {
 
