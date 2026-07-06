@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="839303ee-c5ca-42a7-a4b5-fc2807a2da3c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     absensi.`id_absensi` AS absensi_id_absensi,
+     absensi.`id_guru` AS absensi_id_guru,
+     absensi.`tanggal` AS absensi_tanggal,
+     absensi.`jam_masuk` AS absensi_jam_masuk,
+     absensi.`jam_keluar` AS absensi_jam_keluar,
+     absensi.`status` AS absensi_status,
+     absensi.`keterangan` AS absensi_keterangan,
+     absensi.`id_siswa` AS absensi_id_siswa,
+     guru.`id_guru` AS guru_id_guru,
+     guru.`nip` AS guru_nip,
+     guru.`nama_guru` AS guru_nama_guru,
+     guru.`jenis_kelamin` AS guru_jenis_kelamin,
+     guru.`agama` AS guru_agama,
+     guru.`no_telp` AS guru_no_telp,
+     guru.`email` AS guru_email,
+     jurusan.`id_jurusan` AS jurusan_id_jurusan,
+     jurusan.`nama_jurusan` AS jurusan_nama_jurusan,
+     kelas.`id_kelas` AS kelas_id_kelas,
+     kelas.`nama_kelas` AS kelas_nama_kelas,
+     mapel.`id_mapel` AS mapel_id_mapel,
+     mapel.`nama_mapel` AS mapel_nama_mapel,
+     mapel.`kkm` AS mapel_kkm,
+     mapel.`id_jurusan` AS mapel_id_jurusan,
+     nilai.`id_nilai` AS nilai_id_nilai,
+     nilai.`id_siswa` AS nilai_id_siswa,
+     nilai.`id_mapel` AS nilai_id_mapel,
+     nilai.`uh` AS nilai_uh,
+     nilai.`uts` AS nilai_uts,
+     nilai.`uas` AS nilai_uas,
+     nilai.`rata_rata` AS nilai_rata_rata,
+     siswa.`id` AS siswa_id,
+     siswa.`nis` AS siswa_nis,
+     siswa.`nama` AS siswa_nama,
+     siswa.`jurusan` AS siswa_jurusan,
+     siswa.`kelas` AS siswa_kelas,
+     siswa.`agama` AS siswa_agama,
+     siswa.`JenisKelamin` AS siswa_JenisKelamin,
+     siswa.`id_jurusan` AS siswa_id_jurusan,
+     siswa.`id_kelas` AS siswa_id_kelas
+FROM
+     `guru` guru INNER JOIN `absensi` absensi ON guru.`id_guru` = absensi.`id_guru`
+     INNER JOIN `siswa` siswa ON absensi.`id_siswa` = siswa.`id`
+     INNER JOIN `jurusan` jurusan ON siswa.`id_jurusan` = jurusan.`id_jurusan`
+     INNER JOIN `kelas` kelas ON siswa.`id_kelas` = kelas.`id_kelas`
+     INNER JOIN `nilai` nilai ON siswa.`id` = nilai.`id_siswa`
+     INNER JOIN `mapel` mapel ON nilai.`id_mapel` = mapel.`id_mapel`
+     AND jurusan.`id_jurusan` = mapel.`id_jurusan`]]>
+	</queryString>
+	<field name="id_guru" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="212" y="29" width="130" height="20" uuid="0d239de4-31bf-479c-8bb7-5eae9b6ed5da"/>
+				<text><![CDATA[Laporan Anggota Guru]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

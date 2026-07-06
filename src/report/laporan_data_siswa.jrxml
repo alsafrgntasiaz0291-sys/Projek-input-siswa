@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="laporan_data_siswa" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000101">
+	<parameter name="LOGO_PATH" class="java.lang.String">
+		<defaultValueExpression><![CDATA["src/images/logo (1).png"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT nis, nama, jurusan, kelas, agama, JenisKelamin, Alamat FROM siswa ORDER BY nama]]>
+	</queryString>
+	<field name="nis" class="java.lang.String"/>
+	<field name="nama" class="java.lang.String"/>
+	<field name="jurusan" class="java.lang.String"/>
+	<field name="kelas" class="java.lang.String"/>
+	<field name="agama" class="java.lang.String"/>
+	<field name="JenisKelamin" class="java.lang.String"/>
+	<field name="Alamat" class="java.lang.String"/>
+	<title>
+		<band height="105">
+			<image><reportElement x="20" y="5" width="70" height="70" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000102"/><imageExpression><![CDATA[$P{LOGO_PATH}]]></imageExpression></image>
+			<staticText><reportElement x="100" y="8" width="610" height="28" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000103"/><textElement textAlignment="Center"><font size="18" isBold="true"/></textElement><text><![CDATA[SMK AL HIDAYAH]]></text></staticText>
+			<staticText><reportElement x="100" y="36" width="610" height="18" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000104"/><textElement textAlignment="Center"><font size="10"/></textElement><text><![CDATA[Laporan Sistem Informasi Sekolah]]></text></staticText>
+			<line><reportElement x="0" y="82" width="802" height="1" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000105"/></line>
+			<staticText><reportElement x="0" y="86" width="802" height="19" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000106"/><textElement textAlignment="Center"><font size="14" isBold="true"/></textElement><text><![CDATA[LAPORAN DATA SISWA]]></text></staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="24">
+			<staticText><reportElement mode="Opaque" backcolor="#E6E6E6" x="0" y="0" width="35" height="24" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000107"/><textElement textAlignment="Center" verticalAlignment="Middle"><font size="8" isBold="true"/></textElement><text><![CDATA[No]]></text></staticText>
+			<staticText><reportElement mode="Opaque" backcolor="#E6E6E6" x="35" y="0" width="85" height="24" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000108"/><textElement textAlignment="Center" verticalAlignment="Middle"><font size="8" isBold="true"/></textElement><text><![CDATA[NIS]]></text></staticText>
+			<staticText><reportElement mode="Opaque" backcolor="#E6E6E6" x="120" y="0" width="170" height="24" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000109"/><textElement textAlignment="Center" verticalAlignment="Middle"><font size="8" isBold="true"/></textElement><text><![CDATA[Nama]]></text></staticText>
+			<staticText><reportElement mode="Opaque" backcolor="#E6E6E6" x="290" y="0" width="115" height="24" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000110"/><textElement textAlignment="Center" verticalAlignment="Middle"><font size="8" isBold="true"/></textElement><text><![CDATA[Jurusan]]></text></staticText>
+			<staticText><reportElement mode="Opaque" backcolor="#E6E6E6" x="405" y="0" width="60" height="24" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000111"/><textElement textAlignment="Center" verticalAlignment="Middle"><font size="8" isBold="true"/></textElement><text><![CDATA[Kelas]]></text></staticText>
+			<staticText><reportElement mode="Opaque" backcolor="#E6E6E6" x="465" y="0" width="95" height="24" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000112"/><textElement textAlignment="Center" verticalAlignment="Middle"><font size="8" isBold="true"/></textElement><text><![CDATA[Agama]]></text></staticText>
+			<staticText><reportElement mode="Opaque" backcolor="#E6E6E6" x="560" y="0" width="95" height="24" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000113"/><textElement textAlignment="Center" verticalAlignment="Middle"><font size="8" isBold="true"/></textElement><text><![CDATA[JK]]></text></staticText>
+			<staticText><reportElement mode="Opaque" backcolor="#E6E6E6" x="655" y="0" width="147" height="24" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000114"/><textElement textAlignment="Center" verticalAlignment="Middle"><font size="8" isBold="true"/></textElement><text><![CDATA[Alamat]]></text></staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="22">
+			<textField><reportElement x="0" y="0" width="35" height="22" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000115"/><textElement textAlignment="Center" verticalAlignment="Middle"><font size="8"/></textElement><textFieldExpression><![CDATA[String.valueOf($V{REPORT_COUNT})]]></textFieldExpression></textField>
+			<textField><reportElement x="35" y="0" width="85" height="22" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000116"/><textElement verticalAlignment="Middle"><font size="8"/></textElement><textFieldExpression><![CDATA[$F{nis}]]></textFieldExpression></textField>
+			<textField><reportElement x="120" y="0" width="170" height="22" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000117"/><textElement verticalAlignment="Middle"><font size="8"/></textElement><textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression></textField>
+			<textField><reportElement x="290" y="0" width="115" height="22" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000118"/><textElement verticalAlignment="Middle"><font size="8"/></textElement><textFieldExpression><![CDATA[$F{jurusan}]]></textFieldExpression></textField>
+			<textField><reportElement x="405" y="0" width="60" height="22" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000119"/><textElement textAlignment="Center" verticalAlignment="Middle"><font size="8"/></textElement><textFieldExpression><![CDATA[$F{kelas}]]></textFieldExpression></textField>
+			<textField><reportElement x="465" y="0" width="95" height="22" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000120"/><textElement verticalAlignment="Middle"><font size="8"/></textElement><textFieldExpression><![CDATA[$F{agama}]]></textFieldExpression></textField>
+			<textField><reportElement x="560" y="0" width="95" height="22" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000121"/><textElement verticalAlignment="Middle"><font size="8"/></textElement><textFieldExpression><![CDATA[$F{JenisKelamin}]]></textFieldExpression></textField>
+			<textField><reportElement x="655" y="0" width="147" height="22" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000122"/><textElement verticalAlignment="Middle"><font size="8"/></textElement><textFieldExpression><![CDATA[$F{Alamat}]]></textFieldExpression></textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="22">
+			<textField><reportElement x="650" y="2" width="152" height="18" uuid="5f0a84df-6fd7-4e1d-a9fd-000000000123"/><textElement textAlignment="Right"><font size="8"/></textElement><textFieldExpression><![CDATA["Halaman " + $V{PAGE_NUMBER}]]></textFieldExpression></textField>
+		</band>
+	</pageFooter>
+</jasperReport>
