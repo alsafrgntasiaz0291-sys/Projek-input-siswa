@@ -22,7 +22,62 @@ public class inputkelas extends javax.swing.JFrame {
      */
     public inputkelas() {
         initComponents();
+        buildMasterLayout();
         tampilData();
+    }
+    private void buildMasterLayout() {
+        setTitle("Form Kelas");
+        UiHelper.styleButton(simpan);
+        UiHelper.styleButton(ubah);
+        UiHelper.styleButton(hapus);
+
+        javax.swing.JPanel form = new javax.swing.JPanel(new java.awt.GridBagLayout());
+        form.setBackground(UiHelper.PALE_YELLOW);
+        form.setBorder(javax.swing.BorderFactory.createEmptyBorder(32, 40, 32, 40));
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.insets = new java.awt.Insets(8, 10, 8, 10);
+        gbc.anchor = java.awt.GridBagConstraints.WEST;
+
+        addMasterRow(form, gbc, 0, jLabel2, kelas);
+        addMasterRow(form, gbc, 1, jLabel3, namakelas);
+        addMasterRow(form, gbc, 2, jLabel4, jurusan);
+
+        javax.swing.JPanel actions = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 28, 8));
+        actions.setOpaque(false);
+        actions.add(hapus);
+        actions.add(simpan);
+        actions.add(ubah);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.gridwidth = 2;
+        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        form.add(actions, gbc);
+
+        javax.swing.JPanel center = new javax.swing.JPanel(new java.awt.BorderLayout(0, 18));
+        center.setBackground(UiHelper.SOFT_GREEN);
+        center.setBorder(javax.swing.BorderFactory.createEmptyBorder(26, 40, 26, 40));
+        center.add(form, java.awt.BorderLayout.NORTH);
+        center.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        javax.swing.JPanel root = new javax.swing.JPanel(new java.awt.BorderLayout());
+        root.add(UiHelper.pageHeader(getClass(), "Form Kelas", dashboard), java.awt.BorderLayout.NORTH);
+        root.add(center, java.awt.BorderLayout.CENTER);
+
+        setContentPane(root);
+        UiHelper.prepareFrame(this);
+    }
+
+    private void addMasterRow(javax.swing.JPanel form, java.awt.GridBagConstraints gbc, int row, javax.swing.JLabel label, java.awt.Component input) {
+        label.setFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 18));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        gbc.fill = java.awt.GridBagConstraints.NONE;
+        form.add(label, gbc);
+        gbc.gridx = 1;
+        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        input.setPreferredSize(new java.awt.Dimension(420, 34));
+        form.add(input, gbc);
     }
   private void tampilData() {
 
