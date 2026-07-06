@@ -20,11 +20,13 @@ import koneksi.koneksi;
  */
 public class inputnilai extends javax.swing.JFrame {
  Connection conn = koneksi.getConnection();
+ private javax.swing.JButton hitung;
     /**
      * Creates new form inputnilai
      */
     public inputnilai() {
  initComponents();
+ buildInputNilaiLayout();
 
     DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
     centerRenderer.setHorizontalAlignment(JLabel.CENTER);
@@ -38,6 +40,167 @@ public class inputnilai extends javax.swing.JFrame {
     model.addColumn("Jurusan");
 
     table.setModel(model);
+}
+
+private void buildInputNilaiLayout() {
+    setTitle("Input Nilai");
+    UiHelper.styleButton(jButton1);
+    UiHelper.styleButton(cari);
+    UiHelper.styleButton(reset);
+    UiHelper.styleButton(simpan);
+    UiHelper.styleButton(batal);
+    hitung = new javax.swing.JButton("Hitung");
+    UiHelper.styleButton(hitung);
+    java.awt.Dimension actionButtonSize = new java.awt.Dimension(126, 52);
+    reset.setPreferredSize(actionButtonSize);
+    simpan.setPreferredSize(actionButtonSize);
+    batal.setPreferredSize(actionButtonSize);
+    hitung.setPreferredSize(actionButtonSize);
+    hitung.addActionListener(evt -> {
+        try {
+            hitungRataRata();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Isi nilai UH, UTS, dan UAS dengan angka.");
+        }
+    });
+    batal.addActionListener(evt -> {
+        new dashboard().setVisible(true);
+        dispose();
+    });
+    ratarata.setEditable(false);
+
+    javax.swing.JPanel searchPanel = new javax.swing.JPanel(new java.awt.GridBagLayout());
+    searchPanel.setBackground(UiHelper.PALE_YELLOW);
+    searchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "1. Cari Siswa",
+            javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP,
+            new java.awt.Font("Times New Roman", java.awt.Font.BOLD, 22)));
+
+    java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+    gbc.insets = new java.awt.Insets(8, 10, 8, 10);
+    gbc.anchor = java.awt.GridBagConstraints.WEST;
+    gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    addInputRow(searchPanel, gbc, 0, jLabel2, nama, 0);
+    addInputRow(searchPanel, gbc, 1, jLabel3, nis, 0);
+    gbc.gridx = 2;
+    gbc.gridy = 1;
+    gbc.weightx = 0;
+    searchPanel.add(cari, gbc);
+
+    javax.swing.JPanel studentPanel = new javax.swing.JPanel(new java.awt.BorderLayout());
+    studentPanel.setBackground(UiHelper.PALE_YELLOW);
+    studentPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+    studentPanel.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+    javax.swing.JPanel classPanel = new javax.swing.JPanel(new java.awt.GridBagLayout());
+    classPanel.setBackground(UiHelper.PALE_YELLOW);
+    classPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "2. Pilih Jurusan",
+            javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP,
+            new java.awt.Font("Times New Roman", java.awt.Font.BOLD, 22)));
+    addInputRow(classPanel, gbc, 0, jLabel4, jurusan, 0);
+    addInputRow(classPanel, gbc, 1, jLabel5, kelas, 0);
+    gbc.gridx = 0;
+    gbc.gridy = 2;
+    gbc.gridwidth = 2;
+    classPanel.add(jLabel7, gbc);
+
+    javax.swing.JPanel scorePanel = new javax.swing.JPanel(new java.awt.GridBagLayout());
+    scorePanel.setBackground(UiHelper.PALE_YELLOW);
+    scorePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "3. Input Nilai",
+            javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP,
+            new java.awt.Font("Times New Roman", java.awt.Font.BOLD, 22)));
+
+    gbc.insets = new java.awt.Insets(22, 10, 8, 10);
+    addInputRow(scorePanel, gbc, 0, jLabel10, mapel, 0);
+    gbc.insets = new java.awt.Insets(8, 10, 8, 10);
+    addInputRow(scorePanel, gbc, 1, jLabel11, kkm, 0);
+    addInputRow(scorePanel, gbc, 2, jLabel12, uh, 0);
+    addInputRow(scorePanel, gbc, 3, jLabel13, uts, 0);
+    addInputRow(scorePanel, gbc, 4, jLabel14, uas, 0);
+    addInputRow(scorePanel, gbc, 5, jLabel15, ratarata, 0);
+
+    javax.swing.JPanel actions = new javax.swing.JPanel(new java.awt.GridLayout(2, 2, 12, 12));
+    actions.setOpaque(false);
+    actions.add(hitung);
+    actions.add(reset);
+    actions.add(simpan);
+    actions.add(batal);
+    gbc.gridx = 2;
+    gbc.gridy = 0;
+    gbc.gridheight = 6;
+    gbc.insets = new java.awt.Insets(22, 12, 8, 10);
+    gbc.fill = java.awt.GridBagConstraints.NONE;
+    gbc.anchor = java.awt.GridBagConstraints.NORTH;
+    scorePanel.add(actions, gbc);
+
+    javax.swing.JPanel topRow = new javax.swing.JPanel(new java.awt.GridLayout(1, 2, 18, 0));
+    topRow.setOpaque(false);
+    topRow.add(searchPanel);
+    topRow.add(classPanel);
+
+    javax.swing.JPanel bottomRow = new javax.swing.JPanel(new java.awt.GridBagLayout());
+    bottomRow.setOpaque(false);
+    java.awt.GridBagConstraints bottomGbc = new java.awt.GridBagConstraints();
+    bottomGbc.gridy = 0;
+    bottomGbc.insets = new java.awt.Insets(0, 0, 0, 18);
+    bottomGbc.fill = java.awt.GridBagConstraints.BOTH;
+    bottomGbc.weighty = 1;
+    bottomGbc.gridx = 0;
+    bottomGbc.weightx = 0.52;
+    bottomRow.add(studentPanel, bottomGbc);
+    bottomGbc.gridx = 1;
+    bottomGbc.weightx = 0.48;
+    bottomGbc.insets = new java.awt.Insets(0, 0, 0, 0);
+    bottomRow.add(scorePanel, bottomGbc);
+
+    javax.swing.JPanel center = new javax.swing.JPanel(new java.awt.GridBagLayout());
+    center.setBackground(UiHelper.SOFT_GREEN);
+    center.setBorder(javax.swing.BorderFactory.createEmptyBorder(24, 24, 24, 24));
+    java.awt.GridBagConstraints centerGbc = new java.awt.GridBagConstraints();
+    centerGbc.gridx = 0;
+    centerGbc.gridy = 0;
+    centerGbc.weightx = 1;
+    centerGbc.weighty = 0.42;
+    centerGbc.fill = java.awt.GridBagConstraints.BOTH;
+    centerGbc.insets = new java.awt.Insets(0, 0, 18, 0);
+    center.add(topRow, centerGbc);
+    centerGbc.gridy = 1;
+    centerGbc.weighty = 0.58;
+    centerGbc.insets = new java.awt.Insets(0, 0, 0, 0);
+    center.add(bottomRow, centerGbc);
+
+    javax.swing.JPanel root = new javax.swing.JPanel(new java.awt.BorderLayout());
+    root.add(UiHelper.pageHeader(getClass(), "Input Nilai", jButton1), java.awt.BorderLayout.NORTH);
+    root.add(center, java.awt.BorderLayout.CENTER);
+
+    setContentPane(root);
+    UiHelper.prepareFrame(this);
+}
+
+private void addInputRow(javax.swing.JPanel panel, java.awt.GridBagConstraints gbc, int row, javax.swing.JLabel label, java.awt.Component input, int gridWidth) {
+    label.setFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 18));
+    gbc.gridx = 0;
+    gbc.gridy = row;
+    gbc.gridwidth = 1;
+    gbc.gridheight = 1;
+    gbc.weightx = 0;
+    gbc.fill = java.awt.GridBagConstraints.NONE;
+    panel.add(label, gbc);
+
+    gbc.gridx = 1;
+    gbc.gridwidth = gridWidth <= 0 ? 1 : gridWidth;
+    gbc.weightx = 1;
+    gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    input.setPreferredSize(new java.awt.Dimension(280, 34));
+    panel.add(input, gbc);
+}
+
+private double hitungRataRata() {
+    double nilaiUH = Double.parseDouble(uh.getText().trim());
+    double nilaiUTS = Double.parseDouble(uts.getText().trim());
+    double nilaiUAS = Double.parseDouble(uas.getText().trim());
+    double rata = (nilaiUH + nilaiUTS + nilaiUAS) / 3;
+    ratarata.setText(String.format("%.2f", rata));
+    return rata;
 }
 
     /**
@@ -96,7 +259,6 @@ public class inputnilai extends javax.swing.JFrame {
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/logo (1).png"))); // NOI18N
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jButton1.setText("HOME");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -126,7 +288,7 @@ public class inputnilai extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(46, 46, 46)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 204));
@@ -283,7 +445,6 @@ public class inputnilai extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
         jLabel8.setText("3. Input Nilai");
 
-        reset.setBackground(new java.awt.Color(255, 255, 255));
         reset.setText("Reset");
         reset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -291,10 +452,8 @@ public class inputnilai extends javax.swing.JFrame {
             }
         });
 
-        batal.setBackground(new java.awt.Color(255, 255, 255));
         batal.setText("Batal");
 
-        simpan.setBackground(new java.awt.Color(255, 255, 255));
         simpan.setText("Simpan");
         simpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -303,7 +462,7 @@ public class inputnilai extends javax.swing.JFrame {
         });
 
         jLabel10.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jLabel10.setText("Mata Plajaran");
+        jLabel10.setText("Mata Pelajaran");
 
         jLabel11.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jLabel11.setText("KKM");
@@ -329,14 +488,15 @@ public class inputnilai extends javax.swing.JFrame {
                 .addComponent(jLabel8)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addGap(90, 90, 90)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(jLabel10)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(mapel, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(16, 16, 16))
                     .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(90, 90, 90)
                         .addComponent(jLabel15)
                         .addGap(51, 51, 51)
                         .addComponent(ratarata, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -351,7 +511,7 @@ public class inputnilai extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(kkm, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(uh, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 160, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(jLabel13)
@@ -360,7 +520,7 @@ public class inputnilai extends javax.swing.JFrame {
                             .addComponent(uas, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(uts, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel14))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(simpan, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
                     .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -434,7 +594,7 @@ public class inputnilai extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 964, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 26, Short.MAX_VALUE))
         );
 
@@ -570,15 +730,10 @@ dashboard form = new dashboard();
 
         int idMapel = rs2.getInt("id_mapel");
 
-        double nilaiUH = Double.parseDouble(uh.getText());
-        double nilaiUTS = Double.parseDouble(uts.getText());
-        double nilaiUAS = Double.parseDouble(uas.getText());
-
-        double rata=(nilaiUH+nilaiUTS+nilaiUAS)/3;
-
-        ratarata.setText(String.valueOf(rata));
-
-        ratarata.setText(String.format("%.2f", rata));
+        double nilaiUH = Double.parseDouble(uh.getText().trim());
+        double nilaiUTS = Double.parseDouble(uts.getText().trim());
+        double nilaiUAS = Double.parseDouble(uas.getText().trim());
+        double rata = hitungRataRata();
 
         String predikat;
         if (rata >= 85)
@@ -592,14 +747,14 @@ dashboard form = new dashboard();
 
         String keterangan;
 
-        if (rata >= Double.parseDouble(kkm.getText()))
+        if (rata >= Double.parseDouble(kkm.getText().trim()))
             keterangan = "LULUS";
         else
             keterangan = "TIDAK LULUS";
 
       String sql =
-"INSERT INTO nilai(id_siswa,id_mapel,mata_plajaran,uh,uts,uas,predikat,keterangan) "
-+ "VALUES(?,?,?,?,?,?,?,?)";
+"INSERT INTO nilai(id_siswa,id_mapel,mata_plajaran,uh,uts,uas,rata_rata,predikat,keterangan) "
++ "VALUES(?,?,?,?,?,?,?,?,?)";
 
        PreparedStatement pst = conn.prepareStatement(sql);
 
@@ -609,8 +764,9 @@ pst.setString(3, mapel.getText());
 pst.setDouble(4, nilaiUH);
 pst.setDouble(5, nilaiUTS);
 pst.setDouble(6, nilaiUAS);
-pst.setString(7, predikat);
-pst.setString(8, keterangan);
+pst.setDouble(7, rata);
+pst.setString(8, predikat);
+pst.setString(9, keterangan);
 
 pst.executeUpdate();
 
