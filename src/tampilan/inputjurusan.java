@@ -31,9 +31,64 @@ public class inputjurusan extends javax.swing.JFrame {
      */
     public inputjurusan() {
         initComponents();
+        buildMasterLayout();
         conn = koneksi.getConnection();
         
         tampilData();
+    }
+
+    private void buildMasterLayout() {
+        setTitle("Data Jurusan");
+        UiHelper.styleButton(simpan);
+        UiHelper.styleButton(ubah);
+        UiHelper.styleButton(hapus);
+
+        javax.swing.JPanel form = new javax.swing.JPanel(new java.awt.GridBagLayout());
+        form.setBackground(UiHelper.PALE_YELLOW);
+        form.setBorder(javax.swing.BorderFactory.createEmptyBorder(32, 40, 32, 40));
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.insets = new java.awt.Insets(8, 10, 8, 10);
+        gbc.anchor = java.awt.GridBagConstraints.WEST;
+
+        addMasterRow(form, gbc, 0, jLabel2, idjurusan);
+        addMasterRow(form, gbc, 1, jLabel3, namajurusan);
+
+        javax.swing.JPanel actions = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 28, 8));
+        actions.setOpaque(false);
+        actions.add(simpan);
+        actions.add(ubah);
+        actions.add(hapus);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridwidth = 2;
+        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        form.add(actions, gbc);
+
+        javax.swing.JPanel center = new javax.swing.JPanel(new java.awt.BorderLayout(0, 18));
+        center.setBackground(UiHelper.SOFT_GREEN);
+        center.setBorder(javax.swing.BorderFactory.createEmptyBorder(26, 40, 26, 40));
+        center.add(form, java.awt.BorderLayout.NORTH);
+        center.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+
+        javax.swing.JPanel root = new javax.swing.JPanel(new java.awt.BorderLayout());
+        root.add(UiHelper.pageHeader(getClass(), "Data Jurusan", dashboard), java.awt.BorderLayout.NORTH);
+        root.add(center, java.awt.BorderLayout.CENTER);
+
+        setContentPane(root);
+        UiHelper.prepareFrame(this);
+    }
+
+    private void addMasterRow(javax.swing.JPanel form, java.awt.GridBagConstraints gbc, int row, javax.swing.JLabel label, java.awt.Component input) {
+        label.setFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 18));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.gridwidth = 1;
+        gbc.fill = java.awt.GridBagConstraints.NONE;
+        form.add(label, gbc);
+        gbc.gridx = 1;
+        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        input.setPreferredSize(new java.awt.Dimension(420, 34));
+        form.add(input, gbc);
     }
     
   private void tampilData(){
@@ -113,7 +168,6 @@ public class inputjurusan extends javax.swing.JFrame {
             }
         });
 
-        ubah.setBackground(new java.awt.Color(255, 255, 255));
         ubah.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         ubah.setText("Ubah");
         ubah.addActionListener(new java.awt.event.ActionListener() {
@@ -122,7 +176,6 @@ public class inputjurusan extends javax.swing.JFrame {
             }
         });
 
-        simpan.setBackground(new java.awt.Color(255, 255, 255));
         simpan.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         simpan.setText("Simpan");
         simpan.addActionListener(new java.awt.event.ActionListener() {
@@ -131,7 +184,6 @@ public class inputjurusan extends javax.swing.JFrame {
             }
         });
 
-        hapus.setBackground(new java.awt.Color(255, 255, 255));
         hapus.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         hapus.setText("Hapus");
         hapus.addActionListener(new java.awt.event.ActionListener() {
@@ -237,7 +289,6 @@ public class inputjurusan extends javax.swing.JFrame {
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("DATA JURUSAN");
 
-        dashboard.setBackground(new java.awt.Color(255, 255, 255));
         dashboard.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
         dashboard.setText("HOME");
         dashboard.addActionListener(new java.awt.event.ActionListener() {
@@ -286,7 +337,7 @@ public class inputjurusan extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addContainerGap(634, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
