@@ -40,7 +40,7 @@ public class datasiswa extends javax.swing.JFrame {
         UiHelper.prepareFrame(this);
     }
 
-   
+    // ===== TAMBAHKAN CODING INI DI SINI =====
     private void tampilData() {
 
         DefaultTableModel model = new DefaultTableModel();

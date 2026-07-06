@@ -51,7 +51,7 @@ public class dataguru extends javax.swing.JFrame {
             model.addRow(new Object[]{
                 no++,
                 rs.getString("nip"),
-                rs.getString("nama"),
+                rs.getString("nama_guru"),
                 rs.getString("notelp"),
                 rs.getString("email"),
                 rs.getString("agama"),

@@ -44,20 +44,20 @@ public class inputguru extends javax.swing.JFrame {
         gbc.anchor = java.awt.GridBagConstraints.WEST;
         gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
 
-        addFormRow(form, gbc, 0, jLabel1, txtnip);
-        addFormRow(form, gbc, 1, jLabel2, txtnama);
+     addFormRow(form, gbc, 0, jLabel1, txtnip, 36);
+addFormRow(form, gbc, 1, jLabel2, txtnama, 36);
+addFormRow(form, gbc, 2, jLabel8, jScrollPane1, 80);
 
-        javax.swing.JPanel gender = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 20, 0));
-        gender.setOpaque(false);
-        gender.add(jrblaki);
-        gender.add(jrbcwe);
-        addFormRow(form, gbc, 2, jLabel8, gender);
+javax.swing.JPanel gender = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 20, 0));
+gender.setOpaque(false);
+gender.add(jrblaki);
+gender.add(jrbcwe);
 
-        addFormRow(form, gbc, 3, jLabel9, txtagama);
-        addFormRow(form, gbc, 4, jLabel10, jTextField5);
-        addFormRow(form, gbc, 5, jLabel5, txttelp);
-        addFormRow(form, gbc, 6, jLabel6, txtemail);
-        addFormRow(form, gbc, 7, jLabel4, jScrollPane1);
+addFormRow(form, gbc, 3, jLabel9, txttelp, 36);
+addFormRow(form, gbc, 4, jLabel10, txtemail, 36);
+addFormRow(form, gbc, 5, jLabel5, txtagama, 36);
+addFormRow(form, gbc, 6, jLabel6, jTextField5, 36);
+addFormRow(form, gbc, 7, jLabel4, gender, 36);
 
         javax.swing.JPanel sidebar = new javax.swing.JPanel(new java.awt.BorderLayout());
         sidebar.setBackground(UiHelper.DARK_GREEN);
@@ -81,20 +81,21 @@ public class inputguru extends javax.swing.JFrame {
         UiHelper.prepareFrame(this);
     }
 
-    private void addFormRow(javax.swing.JPanel form, java.awt.GridBagConstraints gbc, int row, javax.swing.JLabel label, java.awt.Component input) {
-        label.setFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 18));
-        gbc.gridx = 0;
-        gbc.gridy = row;
-        gbc.weightx = 0;
-        gbc.fill = java.awt.GridBagConstraints.NONE;
-        form.add(label, gbc);
+    private void addFormRow(javax.swing.JPanel form, java.awt.GridBagConstraints gbc, int row, javax.swing.JLabel label, java.awt.Component input, int height) {
+    label.setFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 18));
+    gbc.gridx = 0;
+    gbc.gridy = row;
+    gbc.weightx = 0;
+    gbc.fill = java.awt.GridBagConstraints.NONE;
+    gbc.anchor = java.awt.GridBagConstraints.WEST;
+    form.add(label, gbc);
 
-        gbc.gridx = 1;
-        gbc.weightx = 1;
-        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        input.setPreferredSize(new java.awt.Dimension(500, row == 7 ? 80 : 36));
-        form.add(input, gbc);
-    }
+    gbc.gridx = 1;
+    gbc.weightx = 1;
+    gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+    input.setPreferredSize(new java.awt.Dimension(500, height));
+    form.add(input, gbc);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -409,30 +410,57 @@ public class inputguru extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String nip = txtnip.getText();
-        String nama = txtnama.getText();
-        String telp = txttelp.getText();
-        String email = txtemail.getText();
-        String agama = txtagama.getText();
+    String nama = txtnama.getText();
+    String telp = txttelp.getText();
+    String email = txtemail.getText();
+    String agama = txtagama.getText();
+    String ttl = jTextField5.getText();
+    String alamat = txtalamat.getText();
 
-        String jk = "";
-        if (jrblaki.isSelected()) {
-            jk = "Laki-laki";
-        } else if (jrbcwe.isSelected()) {
-            jk = "Perempuan";
-        }
+    String jk = "";
+    if (jrblaki.isSelected()) {
+        jk = "Laki-laki";
+    } else if (jrbcwe.isSelected()) {
+        jk = "Perempuan";
+    }
 
-        int no = model.getRowCount() + 1;
+    try {
+        java.sql.Connection conn = java.sql.DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/projek01",
+                "root",
+                "");
 
-        model.addRow(new Object[]{
-            no, nip, nama, telp, email, agama, jk
-        });
+        String sql = "INSERT INTO guru (nip, nama_guru, jk, agama, notelp, email, TTL, alamat) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        java.sql.PreparedStatement pst = conn.prepareStatement(sql);
+        pst.setString(1, nip);
+        pst.setString(2, nama);
+        pst.setString(3, jk);
+        pst.setString(4, agama);
+        pst.setString(5, telp);
+        pst.setString(6, email);
+        pst.setString(7, ttl);
+        pst.setString(8, alamat);
+
+        pst.executeUpdate();
 
         javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil disimpan!");
-        txtnip.setText("");
-        txtnama.setText("");
-        txttelp.setText("");
-        txtemail.setText("");
-        txtagama.setText("");
+
+        pst.close();
+        conn.close();
+
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(this, e.getMessage());
+    }
+
+    txtnip.setText("");
+    txtnama.setText("");
+    txttelp.setText("");
+    txtemail.setText("");
+    txtagama.setText("");
+    jTextField5.setText("");
+    txtalamat.setText("");
+    jrblaki.setSelected(false);
+    jrbcwe.setSelected(false);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

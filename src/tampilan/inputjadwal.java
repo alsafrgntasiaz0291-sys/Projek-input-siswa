@@ -338,7 +338,17 @@ public class inputjadwal extends javax.swing.JPanel {
     }//GEN-LAST:event_btnhomeActionPerformed
 
     private void btnSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSimpanActionPerformed
-    try{
+         if (cmbJurusan.getSelectedItem() == null || cmbKelas.getSelectedItem() == null
+            || cmbMapel.getSelectedItem() == null || cmbGuru.getSelectedItem() == null
+            || cmbRuangan.getSelectedItem() == null) {
+        JOptionPane.showMessageDialog(null,
+            "Data Jurusan/Kelas/Mapel/Guru/Ruangan belum tersedia.\n"
+          + "Pastikan tabel master (jurusan, kelas, mapel, guru, ruangan) sudah terisi.",
+            "Data Tidak Lengkap", JOptionPane.WARNING_MESSAGE);
+        return;
+    }
+        
+        try{
         System.out.println("Jurusan  : " + cmbJurusan.getSelectedItem());
 System.out.println("Kelas    : " + cmbKelas.getSelectedItem());
 System.out.println("Mapel    : " + cmbMapel.getSelectedItem());
@@ -469,8 +479,11 @@ System.out.println("Ruangan  : " + cmbRuangan.getSelectedItem());
         Connection con = koneksi.getConnection();
         Statement st = con.createStatement();
 
+        String jurusanTerpilih = (cmbJurusan.getSelectedItem() != null)
+                ? cmbJurusan.getSelectedItem().toString() : "";
+
         ResultSet rs =
-        st.executeQuery("SELECT nama_kelas FROM kelas");
+        st.executeQuery("SELECT nama_kelas FROM kelas WHERE jurusan='" + jurusanTerpilih + "'");
 
         cmbKelas.removeAllItems();
 
@@ -547,7 +560,7 @@ System.out.println("Ruangan  : " + cmbRuangan.getSelectedItem());
     }//GEN-LAST:event_cmbKelasActionPerformed
 
     private void cmbJurusanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbJurusanActionPerformed
-
+        tampilKelas();
     }//GEN-LAST:event_cmbJurusanActionPerformed
 
     private void cmbMapelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMapelActionPerformed
