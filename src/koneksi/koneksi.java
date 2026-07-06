@@ -13,7 +13,7 @@ public class koneksi {
                 // Mencoba memuat driver MySQL baru
                 //Class.forName("com.mysql.cj.jdbc.Driver");
                 
-                String url = "jdbc:mysql://localhost:3306/project";
+                String url = "jdbc:mysql://localhost:3306/projek01";
                 String user = "root";
                 String pass = "";
                 
