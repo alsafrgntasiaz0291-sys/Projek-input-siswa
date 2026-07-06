@@ -19,12 +19,81 @@ public class inputguru extends javax.swing.JFrame {
      */
     public inputguru() {
         initComponents();
+        buildInputLayout();
         if (inputguru.model == null) {
     inputguru.model = new javax.swing.table.DefaultTableModel(
         new Object[]{"No","NIP","Nama","No. Telp","Email","Agama","Jenis Kelamin"}, 0
     );
     }
 
+    }
+
+    private void buildInputLayout() {
+        setTitle("Input Guru");
+        UiHelper.styleButton(jButton1);
+        UiHelper.styleButton(jButton3);
+        UiHelper.styleButton(jButton4);
+        UiHelper.styleButton(dashboard);
+
+        javax.swing.JPanel form = new javax.swing.JPanel(new java.awt.GridBagLayout());
+        form.setBackground(UiHelper.PALE_YELLOW);
+        form.setBorder(javax.swing.BorderFactory.createEmptyBorder(26, 36, 26, 36));
+
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.insets = new java.awt.Insets(8, 8, 8, 8);
+        gbc.anchor = java.awt.GridBagConstraints.WEST;
+        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+
+        addFormRow(form, gbc, 0, jLabel1, txtnip);
+        addFormRow(form, gbc, 1, jLabel2, txtnama);
+
+        javax.swing.JPanel gender = new javax.swing.JPanel(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 20, 0));
+        gender.setOpaque(false);
+        gender.add(jrblaki);
+        gender.add(jrbcwe);
+        addFormRow(form, gbc, 2, jLabel8, gender);
+
+        addFormRow(form, gbc, 3, jLabel9, txtagama);
+        addFormRow(form, gbc, 4, jLabel10, jTextField5);
+        addFormRow(form, gbc, 5, jLabel5, txttelp);
+        addFormRow(form, gbc, 6, jLabel6, txtemail);
+        addFormRow(form, gbc, 7, jLabel4, jScrollPane1);
+
+        javax.swing.JPanel sidebar = new javax.swing.JPanel(new java.awt.BorderLayout());
+        sidebar.setBackground(UiHelper.DARK_GREEN);
+        sidebar.setBorder(javax.swing.BorderFactory.createEmptyBorder(24, 26, 24, 26));
+
+        javax.swing.JPanel actions = new javax.swing.JPanel(new java.awt.GridLayout(4, 1, 0, 22));
+        actions.setOpaque(false);
+        actions.add(jButton1);
+        actions.add(jButton3);
+        actions.add(jButton4);
+        actions.add(dashboard);
+
+        sidebar.add(UiHelper.imageLabel(getClass(), "/images/logo (1).png", 130, 130), java.awt.BorderLayout.NORTH);
+        sidebar.add(actions, java.awt.BorderLayout.CENTER);
+
+        javax.swing.JPanel root = new javax.swing.JPanel(new java.awt.BorderLayout());
+        root.add(form, java.awt.BorderLayout.CENTER);
+        root.add(sidebar, java.awt.BorderLayout.EAST);
+
+        setContentPane(root);
+        UiHelper.prepareFrame(this);
+    }
+
+    private void addFormRow(javax.swing.JPanel form, java.awt.GridBagConstraints gbc, int row, javax.swing.JLabel label, java.awt.Component input) {
+        label.setFont(new java.awt.Font("Times New Roman", java.awt.Font.PLAIN, 18));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        gbc.weightx = 0;
+        gbc.fill = java.awt.GridBagConstraints.NONE;
+        form.add(label, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 1;
+        gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        input.setPreferredSize(new java.awt.Dimension(500, row == 7 ? 80 : 36));
+        form.add(input, gbc);
     }
 
     /**
