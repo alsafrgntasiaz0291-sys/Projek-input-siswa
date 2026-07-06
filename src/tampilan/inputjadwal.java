@@ -14,6 +14,7 @@ public class inputjadwal extends javax.swing.JPanel {
 
     public inputjadwal() {
         initComponents();
+        UiHelper.preparePanel(this);
 
         inputjurusan();
         tampilKelas();
@@ -568,8 +569,7 @@ System.out.println("Ruangan  : " + cmbRuangan.getSelectedItem());
 
     frame.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
     frame.setContentPane(new jadwal());
-    frame.pack();
-    frame.setLocationRelativeTo(null);
+    UiHelper.prepareFrame(frame);
     frame.setVisible(true);
 
     java.awt.Window window =
