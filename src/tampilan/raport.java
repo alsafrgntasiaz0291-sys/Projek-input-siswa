@@ -26,6 +26,7 @@ import koneksi.koneksi;
          */
         public raport() {
             initComponents();
+            UiHelper.prepareFrame(this);
             
         DefaultTableModel model = new DefaultTableModel();
         model.addColumn("NO");
