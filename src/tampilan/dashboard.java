@@ -10,13 +10,157 @@ package tampilan;
  * @author rafi
  */
 public class dashboard extends javax.swing.JFrame {
+    private javax.swing.JButton laporanGuru;
+    private javax.swing.JButton laporanSiswa;
+    private javax.swing.JButton laporanJadwal;
+    private javax.swing.JButton laporanNilai;
+    private javax.swing.JButton laporanAbsenGuru;
+    private javax.swing.JButton laporanAbsenSiswa;
 
     /**
      * Creates new form dashboard
      */
     public dashboard() {
         initComponents();
+        buildDashboardLayout();
       
+    }
+
+    private void buildDashboardLayout() {
+        setTitle("Dashboard");
+
+        setMenuButton(inputsiswa, "Siswa/Siswi");
+        setMenuButton(inputjurusan, "Jurusan");
+        setMenuButton(inputkelas, "Kelas");
+        setMenuButton(jButton3, "Absen Siswa");
+        setMenuButton(btnJadwal, "Jadwal");
+        setMenuButton(inputguru, "Guru");
+        setMenuButton(jButton2, "Raport");
+        setMenuButton(jButton1, "Nilai");
+        setMenuButton(jButton4, "Absen Guru");
+        laporanGuru = buatTombolLaporan("Lap. Guru");
+        laporanSiswa = buatTombolLaporan("Lap. Siswa");
+        laporanJadwal = buatTombolLaporan("Lap. Jadwal");
+        laporanNilai = buatTombolLaporan("Lap. Nilai");
+        laporanAbsenGuru = buatTombolLaporan("Lap. Absen Guru");
+        laporanAbsenSiswa = buatTombolLaporan("Lap. Absen Siswa");
+
+        resetMenuActions();
+        inputsiswa.addActionListener(evt -> bukaFrame(new inputsiswa()));
+        inputjurusan.addActionListener(evt -> bukaFrame(new inputjurusan()));
+        inputkelas.addActionListener(evt -> bukaFrame(new inputkelas()));
+        jButton3.addActionListener(evt -> bukaFrame(new AbsensiSiswa()));
+        btnJadwal.addActionListener(evt -> bukaPanel("Jadwal", new jadwal()));
+        inputguru.addActionListener(evt -> bukaFrame(new inputguru()));
+        jButton2.addActionListener(evt -> bukaFrame(new raport()));
+        jButton1.addActionListener(evt -> bukaFrame(new inputnilai()));
+        jButton4.addActionListener(evt -> bukaPanel("Absensi Guru", new AbsensiGuru()));
+        laporanGuru.addActionListener(evt -> {
+            new LaporanDataGuru().setVisible(true);
+            dispose();
+        });
+        laporanSiswa.addActionListener(evt -> {
+            new LaporanDataSiswa().setVisible(true);
+            dispose();
+        });
+        laporanJadwal.addActionListener(evt -> {
+            new LaporanJadwal().setVisible(true);
+            dispose();
+        });
+        laporanNilai.addActionListener(evt -> {
+            new LaporanNilai().setVisible(true);
+            dispose();
+        });
+        laporanAbsenGuru.addActionListener(evt -> {
+            new LaporanAbsensiGuru().setVisible(true);
+            dispose();
+        });
+        laporanAbsenSiswa.addActionListener(evt -> {
+            new LaporanAbsensiSiswa().setVisible(true);
+            dispose();
+        });
+
+        javax.swing.JPanel menu = new javax.swing.JPanel(new java.awt.BorderLayout());
+        menu.setBackground(UiHelper.SOFT_GREEN);
+        menu.setBorder(javax.swing.BorderFactory.createEmptyBorder(12, 18, 12, 18));
+
+        javax.swing.JPanel buttons = new javax.swing.JPanel(new java.awt.GridLayout(0, 2, 10, 10));
+        buttons.setOpaque(false);
+        buttons.add(inputsiswa);
+        buttons.add(inputjurusan);
+        buttons.add(inputkelas);
+        buttons.add(jButton3);
+        buttons.add(btnJadwal);
+        buttons.add(inputguru);
+        buttons.add(jButton2);
+        buttons.add(jButton1);
+        buttons.add(jButton4);
+        buttons.add(laporanGuru);
+        buttons.add(laporanSiswa);
+        buttons.add(laporanJadwal);
+        buttons.add(laporanNilai);
+        buttons.add(laporanAbsenGuru);
+        buttons.add(laporanAbsenSiswa);
+
+        menu.add(UiHelper.imageLabel(getClass(), "/images/logo (1).png", 130, 130), java.awt.BorderLayout.NORTH);
+        menu.add(buttons, java.awt.BorderLayout.CENTER);
+
+        javax.swing.JPanel content = new javax.swing.JPanel(new java.awt.BorderLayout());
+        content.setBackground(java.awt.Color.BLACK);
+        content.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        content.add(UiHelper.filledImagePanel(getClass(), "/images/sekolah.png"), java.awt.BorderLayout.CENTER);
+
+        javax.swing.JPanel root = new javax.swing.JPanel(new java.awt.BorderLayout());
+        root.add(menu, java.awt.BorderLayout.WEST);
+        root.add(content, java.awt.BorderLayout.CENTER);
+
+        setContentPane(root);
+        UiHelper.prepareFrame(this);
+    }
+
+    private void setMenuButton(javax.swing.JButton button, String text) {
+        button.setText(text);
+        button.setIcon(null);
+        UiHelper.styleButton(button);
+        button.setFont(new java.awt.Font("Times New Roman", java.awt.Font.BOLD, 18));
+        button.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        button.setPreferredSize(new java.awt.Dimension(190, 56));
+    }
+
+    private void resetMenuActions() {
+        javax.swing.JButton[] buttons = {
+            inputsiswa, inputjurusan, inputkelas, jButton3, btnJadwal,
+            inputguru, jButton2, jButton1, jButton4
+        };
+        for (javax.swing.JButton button : buttons) {
+            for (java.awt.event.ActionListener listener : button.getActionListeners()) {
+                button.removeActionListener(listener);
+            }
+        }
+    }
+
+    private void bukaFrame(javax.swing.JFrame frame) {
+        frame.setVisible(true);
+        dispose();
+    }
+
+    private void bukaPanel(String title, javax.swing.JPanel panel) {
+        javax.swing.JFrame frame = new javax.swing.JFrame(title);
+        frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(panel);
+        UiHelper.prepareFrame(frame);
+        frame.setVisible(true);
+        dispose();
+    }
+
+    private javax.swing.JButton buatTombolLaporan(String text) {
+        javax.swing.JButton button = new javax.swing.JButton(text);
+        UiHelper.styleButton(button);
+        button.setFont(new java.awt.Font("Times New Roman", java.awt.Font.BOLD, 13));
+        button.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        button.setMargin(new java.awt.Insets(2, 6, 2, 6));
+        button.setPreferredSize(new java.awt.Dimension(190, 56));
+        return button;
     }
 
     /**
@@ -235,17 +379,12 @@ inputnilai form = new inputnilai();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-raport form = new raport();
+LaporanJadwal form = new LaporanJadwal();
     form.setVisible(true);
     this.dispose();          // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void btnJadwalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJadwalActionPerformed
-
-    frmInputJadwal form = new frmInputJadwal();
-    form.setVisible(true);
-
-    this.dispose();
     }//GEN-LAST:event_btnJadwalActionPerformed
 
     /**
